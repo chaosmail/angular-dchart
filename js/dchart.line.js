@@ -1,14 +1,14 @@
-var dchartLine = (function(_super) {
-    __extends(dchartLine, _super);
+var _dchartLine = (function(_super) {
+    __extends(_dchartLine, _super);
 
-    function dchartLine() {
+    function _dchartLine() {
         var self = this;
-        var _ref = dchartLine.__super__.constructor.apply(this, arguments);
+        var _ref = _dchartLine.__super__.constructor.apply(this, arguments);
         return _ref;
     }
 
     // Draw the Chart Data 
-    dchartLine.prototype.drawData = function(scope) {
+    _dchartLine.prototype.drawData = function(scope) {
 
         var line = d3.svg.line()
             .x(function(d) { return scope.xScale(d.x); })
@@ -28,16 +28,16 @@ var dchartLine = (function(_super) {
         return this;
     };
 
-  return dchartLine;
+  return _dchartLine;
 
 })(_dchart2D);
 
 app.directive("dchartLine", function() {
 
-    var chart = new dchartLine();
+    var chart = new _dchartLine();
 
     // Angular Link Function
-    dchartLine.prototype.link = function(scope, element, attrs) {
+    _dchartLine.prototype.link = function(scope, element, attrs) {
 
         scope.margin = {top: 50, right: 50, bottom: 50, left: 50};
 

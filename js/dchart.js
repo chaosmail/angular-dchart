@@ -107,7 +107,7 @@ var _dchart2D = (function(_super) {
     _dchart2D.prototype.parseData = function(data, elem) {
         if (elem === null) return;
 
-        var set = {label:"",stroke:this.getRandomColor(),strokeWidth:1,data:[]},
+        var set = {label:"",stroke:this.getRandomColor(),fill:"#000",opacity:1,fillOpacity:1,strokeWidth:1,data:[]},
             self = this;
 
         angular.forEach(elem.attributes, function (value, key) {
@@ -117,8 +117,17 @@ var _dchart2D = (function(_super) {
             else if (value.nodeName.match(/^stroke$/i)) {
                 set.stroke = value.nodeValue;
             }
+            else if (value.nodeName.match(/^fill$/i)) {
+                set.fill = value.nodeValue;
+            }
             else if (value.nodeName.match(/^stroke-width$/i)) {
                 set.strokeWidth = parseFloat(value.nodeValue);
+            }
+            else if (value.nodeName.match(/^fill-opacity$/i)) {
+                set.fillOpacity = parseFloat(value.nodeValue);
+            }
+            else if (value.nodeName.match(/^opacity$/i)) {
+                set.opacity = parseFloat(value.nodeValue);
             }
             else if (value.nodeName.match(/^data$/i)) {
                 // Access the Data from Element's parent scope
@@ -183,6 +192,12 @@ var _dchart2D = (function(_super) {
             if (value.nodeName.match(/^ticks$/i)) {
                 axis.ticks = parseInt(value.nodeValue,10);
             }
+            else if (value.nodeName.match(/^range$/i)) {
+                axis.range = value.nodeValue;
+            }
+            else if (value.nodeName.match(/^domain$/i)) {
+                axis.domain = value.nodeValue.replace(/[\[\]]/g,"").split(",");
+            }
             else if (value.nodeName.match(/^align$/i)) {
                 var align = value.nodeValue;
 
@@ -208,8 +223,8 @@ var _dchart2D = (function(_super) {
         if (scope.axis !== undefined && scope.axis !== null) return;
 
         scope.axis = {
-            x: {type:"x",domain:[0,10],label:"",align:"bottom",range:"auto",ticks:"10",labelPos:"middle"},
-            y: {type:"y",domain:[0,10],label:"",align:"left",range:"auto",ticks:"10",labelPos:"middle"}
+            x: {type:"x",domain:[0,10],label:"",align:"bottom",ticks:10,labelPos:"middle"},
+            y: {type:"y",domain:[0,10],label:"",align:"left",ticks:10,labelPos:"middle"}
         };
 
         return this;

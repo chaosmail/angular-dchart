@@ -12,14 +12,15 @@
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/dchart.js"></script>
         <script type="text/javascript" src="js/dchart.line.js"></script>
+        <script type="text/javascript" src="js/dchart.histo.js"></script>
     </head>
     <body ng-controller="MainCtrl">
         <h1>Angular D3 Chart Directives</h1>
 
         <dchart-line width="600" height="300">
             <axis>
-                <x align="bottom">f(x) [m/s²]</x>
-                <y align="left">x [m²]</y>
+                <x align="bottom" range="auto">f(x) [m/s²]</x>
+                <y align="left" range="auto">x [m²]</y>
             </axis>
             <data-set stroke="orange" stroke-width="2" data="dataSet[0]">
             </data-set>
@@ -36,6 +37,25 @@
                 <point x="21" y="25"></point>
             </data-set>
         </dchart-line>
+
+        <dchart-histo width="600" height="300">
+            <axis>
+                <x align="bottom" ticks="12" domain="[0,10]">f(x) [m/s²]</x>
+                <y align="left" range="auto">x [m²]</y>
+            </axis>
+            <data-set stroke="blue" fill="yellow" fill-opacity="0.8" stroke-width="0.5">
+                <point x="2" y="5"></point>
+                <point x="4" y="10"></point>
+                <point x="6" y="20"></point>
+                <point x="8" y="35"></point>
+            </data-set>
+            <data-set stroke="blue" fill="orange" fill-opacity="0.8" stroke-width="0.5">
+                <point x="2" y="4"></point>
+                <point x="4" y="8"></point>
+                <point x="6" y="15"></point>
+                <point x="8" y="25"></point>
+            </data-set>
+        </dchart-histo>
 
     </body>
 </html>
