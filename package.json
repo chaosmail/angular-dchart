@@ -1,10 +1,10 @@
 {
   "name": "dchart",
   "version": "0.0.1",
-  "description": "Angular D3 Chart Directives",
+  "description": "Angular/D3.js Chart Directives",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/*.js"
   },
   "repository": "",
   "keywords": [
@@ -12,7 +12,7 @@
     "angular",
     "d3"
   ],
-  "author": "Christoph Körner",
+  "author": "Christoph Körner <office@chaosmail.at> (http://chaosmail.at)",
   "license": "MIT",
   "readmeFilename": "README.md",
   "gitHead": "9a0d9c6232ae779253a832d63395f35315b40c57"
