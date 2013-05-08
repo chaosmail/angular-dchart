@@ -1,0 +1,19 @@
+{
+  "name": "dchart",
+  "version": "0.0.1",
+  "description": "Angular D3 Chart Directives",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "chart",
+    "angular",
+    "d3"
+  ],
+  "author": "Christoph Körner",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "9a0d9c6232ae779253a832d63395f35315b40c57"
+}
