@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:ng="http://angularjs.org" ng-app="dchart">
+    <head>
+        <title>Angular D3 Chart Directives</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="components/bootstrap/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/screen.css">
+
+        <script type="text/javascript" src="components/angular/angular.js"></script>
+        <script type="text/javascript" src="components/d3/d3.js" charset="utf-8"></script>
+
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/dchart.directives.js"></script>
+    </head>
+    <body ng-controller="MainCtrl">
+        <h1>Angular D3 Chart Directives</h1>
+
+        <dchart-line width="600" height="300">
+            <axis>
+                <x ticks="5" align="bottom">f(x) [m/s²]</x>
+                <y ticks="20" align="left">x [m²]</y>
+            </axis>
+        </dchart-line>
+
+    </body>
+</html>
