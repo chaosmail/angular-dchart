@@ -10,16 +10,31 @@
         <script type="text/javascript" src="components/d3/d3.js" charset="utf-8"></script>
 
         <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="js/dchart.directives.js"></script>
+        <script type="text/javascript" src="js/dchart.js"></script>
+        <script type="text/javascript" src="js/dchart.line.js"></script>
     </head>
     <body ng-controller="MainCtrl">
         <h1>Angular D3 Chart Directives</h1>
 
         <dchart-line width="600" height="300">
             <axis>
-                <x ticks="5" align="bottom">f(x) [m/s²]</x>
-                <y ticks="20" align="left">x [m²]</y>
+                <x align="bottom">f(x) [m/s²]</x>
+                <y align="left">x [m²]</y>
             </axis>
+            <data-set stroke="orange" stroke-width="2" data="dataSet[0]">
+            </data-set>
+            <data-set stroke="green" stroke-width="1.5">
+                <point x="7" y="7"></point>
+                <point x="17" y="3"></point>
+                <point x="8" y="12"></point>
+                <point x="22" y="15"></point>
+            </data-set>
+            <data-set stroke="blue" stroke-width="1">
+                <point x="24" y="2"></point>
+                <point x="12" y="3"></point>
+                <point x="5" y="14"></point>
+                <point x="21" y="25"></point>
+            </data-set>
         </dchart-line>
 
     </body>
