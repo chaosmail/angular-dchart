@@ -13,7 +13,7 @@
     "d3"
   ],
   "author": "Christoph Körner",
-  "license": "BSD",
+  "license": "MIT",
   "readmeFilename": "README.md",
   "gitHead": "9a0d9c6232ae779253a832d63395f35315b40c57"
 }

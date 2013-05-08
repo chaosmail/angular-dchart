@@ -1,6 +1,8 @@
 Angular/D3.js Chart Directives
 ==============================
 
+A Demo can be found here: http://chaosmail.at/2013/angular-dchart/
+
 Line Chart
 ----------
 
