@@ -24,7 +24,7 @@
                 <x align="bottom" range="auto">f(x) [m/s²]</x>
                 <y align="left" range="auto">x [m²]</y>
             </axis>
-            <data-set stroke="orange" stroke-width="2" data="dataSet[0]">
+            <data-set stroke="orange" stroke-width="2" data="dataSetLine1">
             </data-set>
             <data-set stroke="green" stroke-width="1.5">
                 <point x="7" y="7"></point>
@@ -40,6 +40,26 @@
             </data-set>
         </dchart-line>
 
+        <dchart-line width="600" height="300">
+            <axis>
+                <x align="center" domain="[0,100]">f(x) [m/s²]</x>
+                <y align="center" range="auto">x [m²]</y>
+            </axis>
+            <data-set stroke="orange" stroke-width="2" data="dataSetLine2">
+            </data-set>
+            <data-set stroke="green" stroke-width="1.5">
+                <point x="7" y="7"></point>
+                <point x="17" y="3"></point>
+                <point x="8" y="12"></point>
+                <point x="22" y="15"></point>
+            </data-set>
+            <data-set stroke="blue" stroke-width="1">
+                <point x="24" y="2"></point>
+                <point x="12" y="3"></point>
+                <point x="5" y="14"></point>
+                <point x="21" y="25"></point>
+            </data-set>
+        </dchart-line>
         <br>
 
         <pre>
@@ -65,13 +85,15 @@
                 <x align="bottom" ticks="12" domain="[0,10]">f(x) [m/s²]</x>
                 <y align="left" range="auto">x [m²]</y>
             </axis>
-            <data-set stroke="blue" fill="yellow" fill-opacity="0.8" stroke-width="0.5">
+            <data-set stroke="blue" fill="green" fill-opacity="0.8" stroke-width="1" data="dataSetLine1">
+            </data-set>
+            <data-set stroke="orange" fill="yellow" fill-opacity="0.8" stroke-width="0.5">
                 <point x="2" y="5"></point>
                 <point x="4" y="10"></point>
                 <point x="6" y="20"></point>
                 <point x="8" y="35"></point>
             </data-set>
-            <data-set stroke="blue" fill="orange" fill-opacity="0.8" stroke-width="0.5">
+            <data-set stroke="red" fill="orange" fill-opacity="0.8" stroke-width="0.5">
                 <point x="2" y="4"></point>
                 <point x="4" y="8"></point>
                 <point x="6" y="15"></point>

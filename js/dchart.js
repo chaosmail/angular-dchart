@@ -75,16 +75,16 @@ var _dchart = (function() {
                     .attr("transform","translate("+ scope.margin.left +", "+ scope.margin.top +")");
 
         scope.svg = svg;
-
-        return this;
     };
 
     // Angular Compile Function
     _dchart.prototype.compile = function( element, attributes, transclude ) {
 
-        this.transcludeData = transclude;
+        function F() {}
+        F.prototype = this;
+        F.prototype.transcludeData = transclude;
 
-        return( this.link );
+        return( new F().link );
     };
 
     return _dchart;
@@ -132,9 +132,10 @@ var _dchart2D = (function(_super) {
             else if (value.nodeName.match(/^data$/i)) {
                 // Access the Data from Element's parent scope
                 var scope = angular.element(elem).scope();
-                set.data = scope.$parent.$eval(value.nodeValue);
 
-
+                if (scope.$parent.hasOwnProperty(value.nodeValue)) {
+                    set.data = scope.$parent[value.nodeValue];
+                }
             }
         });
 
@@ -147,7 +148,6 @@ var _dchart2D = (function(_super) {
                 }
             }
         });
-
         data.push(set);
     };
 
@@ -155,7 +155,10 @@ var _dchart2D = (function(_super) {
     _dchart2D.prototype.parseDataPoint = function(elem) {
         if (elem === null) return null;
 
-        var point = {x:0,y:0,label:elem.innerText},
+        // x and y .. Coordinates
+        // w .. Weight of a single point
+        // label .. Caption of a single point
+        var point = {x:0,y:0,w:1,label:elem.innerText},
             self = this;
 
         angular.forEach(elem.attributes, function (value, key) {
@@ -164,6 +167,9 @@ var _dchart2D = (function(_super) {
             }
             else if (value.nodeName.match(/^y$/i)) {
                 point.y = parseFloat(value.nodeValue);
+            }
+            else if (value.nodeName.match(/^w$/i)) {
+                point.w = parseFloat(value.nodeValue);
             }
         });
 
@@ -242,7 +248,7 @@ var _dchart2D = (function(_super) {
     // Draw the Axis
     _dchart2D.prototype.drawAxis = function(scope) {
 
-        var rangeValues = this.getMinMaxValues(scope.data);
+        var rangeValues = _dchart.prototype.getMinMaxValues(scope.data);
 
         if (scope.axis.x.range === "auto") {
             scope.axis.x.domain = [rangeValues[0].x,rangeValues[1].x];
@@ -274,32 +280,45 @@ var _dchart2D = (function(_super) {
         var xAxis = d3.svg.axis().scale(scope.xScale).orient(xLabelOrient).ticks(scope.axis.x.ticks),
             yAxis = d3.svg.axis().scale(scope.yScale).orient(yLabelOrient).ticks(scope.axis.y.ticks);
 
-        scope.svg.append("g").attr("class", "axis")
-            .attr("transform", "translate(" + yAxisPos + ",0)")
-            .call(yAxis);
+        if (scope.svgXAxis === undefined || scope.svgXAxis === null) {
+            scope.svgXAxis = scope.svg.append("g").attr("class", "axis")
+                .call(xAxis);
 
-        scope.svg.append("g").attr("class", "axis")
-            .attr("transform", "translate(0," + xAxisPos + ")")
-            .call(xAxis);
+            scope.svgXAxisLabel = scope.svg.append("g")
+                .attr("class", "axis-label")
+                .append("text")
+                .attr("text-anchor", scope.axis.x.labelPos)
+                .attr("x", xLabelPos)
+                .attr("y", scope.h + 34);
+        }
 
-        scope.svg.append("g")
-            .attr("class", "axis-label")
-            .append("text")
-            .attr("text-anchor", scope.axis.x.labelPos)
-            .attr("x", xLabelPos)
-            .attr("y", scope.h + 34)
-            .text(scope.axis.x.label);
+        if (scope.svgYAxis === undefined || scope.svgYAxis === null) {
+            scope.svgYAxis = scope.svg.append("g").attr("class", "axis")
+                .call(yAxis);
 
-        scope.svg.append("g")
-            .attr("class", "axis-label")
-            .append("text")
-            .attr("text-anchor", scope.axis.y.labelPos)
-            .attr("x", -yLabelPos)
-            .attr("y", -34)
-            .attr("transform", "rotate(-90)")
-            .text(scope.axis.y.label);
+            scope.svgYAxisLabel = scope.svg.append("g")
+                .attr("class", "axis-label")
+                .append("text")
+                .attr("text-anchor", scope.axis.y.labelPos)
+                .attr("x", -yLabelPos)
+                .attr("y", -34)
+                .attr("transform", "rotate(-90)");
+        }
 
-        return this;
+        scope.svgXAxis
+            .transition()
+            .duration(150)
+            .ease("cubicin")
+            .attr("transform", "translate(0," + xAxisPos + ")").call(xAxis);
+
+        scope.svgYAxis
+            .transition()
+            .duration(150)
+            .ease("cubicin")
+            .attr("transform", "translate(" + yAxisPos + ",0)").call(yAxis);
+
+        scope.svgXAxisLabel.text(scope.axis.x.label);
+        scope.svgYAxisLabel.text(scope.axis.y.label);
     };
 
     return _dchart2D;

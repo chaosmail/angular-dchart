@@ -14,18 +14,27 @@ var _dchartLine = (function(_super) {
             .x(function(d) { return scope.xScale(d.x); })
             .y(function(d) { return scope.yScale(d.y); });
 
-        angular.forEach(scope.data, function(value, key) {
-            scope.svg
-                .append("g")
-                .attr("class", "data")
-                .append("svg:path")
-                .attr("d", line(value.data))
-                .style("stroke", value.stroke)
-                .style("fill", "none")
-                .style("stroke-width", value.strokeWidth);
-        });
+        if (scope.svgData === undefined || scope.svgData === null)
+            scope.svgData = [];
 
-        return this;
+        angular.forEach(scope.data, function(value, key) {
+
+            if (scope.svgData[key] === undefined || scope.svgData[key]  === null) {
+                scope.svgData[key] = scope.svg
+                                        .append("g")
+                                        .attr("class", "data")
+                                        .append("svg:path");
+            }
+
+                scope.svgData[key]
+                    .transition()
+                    .duration(150)
+                    .ease("cubicin")
+                    .attr("d", line(value.data))
+                    .style("stroke", value.stroke)
+                    .style("fill", "none")
+                    .style("stroke-width", value.strokeWidth);
+        });
     };
 
   return _dchartLine;
@@ -45,10 +54,15 @@ app.directive("dchartLine", function() {
             .initializeData(scope)
             .parseTransclude(scope);
 
-        chart.createSvg(scope, element[0])
-            .drawAxis(scope)
-            .drawData(scope);
+        chart.createSvg(scope, element[0]);
 
+        // Todo:
+        // Isolate the directives
+
+        scope.$watch('[data, axis]', function(newVal,oldVal,scope) {
+            chart.drawAxis(scope);
+            chart.drawData(scope);
+        } ,true);
     };
 
     return chart;
