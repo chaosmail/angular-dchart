@@ -45,3 +45,24 @@ Histogramm
 </data-set>
 </dchart-histo>
 ```
+Scatterplot
+-----------
+
+```html
+<dchart-scatter width="600" height="300">
+<axis>
+    <x align="bottom" range="auto">x Axis</x>
+    <y align="left" range="auto">y Axis</y>
+</axis>
+<data-set stroke="blue" fill="green" fill-opacity="0.8" stroke-width="1" data="dataSetLine1">
+</data-set>
+<data-set stroke="orange" fill="yellow" fill-opacity="0.8" stroke-width="0.5"  data="dataSetLine2">
+</data-set>
+<data-set stroke="red" fill="orange" fill-opacity="0.8" stroke-width="0.5">
+    <point x="2" y="4"></point>
+    <point x="4" y="8"></point>
+    <point x="6" y="15"></point>
+    <point x="8" y="25"></point>
+</data-set>
+</dchart-scatter>
+```
