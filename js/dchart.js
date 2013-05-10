@@ -183,7 +183,7 @@ var _dchart2D = (function(_super) {
         });
 
         angular.forEach(elem.children, function (value, key) {
-            if (value.nodeName.match(/^point/i)) {
+            if (value.nodeName.match(/^data/i)) {
                 var point = self.parseDataPoint(value);
 
                 if (point !== null) {
