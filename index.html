@@ -17,6 +17,11 @@
     <body ng-controller="MainCtrl">
         <h1>Angular/D3.js Chart Directives</h1>
 
+        <h2>About</h2>
+        <p>
+            This library is in devlopment and not finished yet.<br />
+            Source on Github: <a href="https://github.com/chaosmail/angular-dchart" target="_new">https://github.com/chaosmail/angular-dchart</a>
+        </p>
         <h2>Line Chart</h2>
         <p>
         <dchart-line width="600" height="300">
@@ -52,22 +57,6 @@
                 <point x="21" y="25"></point>
             </data-set>
         </dchart-line>
-        <br>
-
-        <pre>
-            &lt;dchart-line width="600" height="300"&gt;
-                &lt;axis&gt;
-                    &lt;x align="bottom" domain="[0,60]"&gt;f(x) [m/s²]&lt;/x&gt;
-                    &lt;y align="left" range="auto"&gt;x [m²]&lt;/y&gt;
-                &lt;/axis&gt;
-                &lt;data-set stroke="green" stroke-width="1.5"&gt;
-                    &lt;point x="7" y="7"&gt;&lt;/point&gt;
-                    &lt;point x="17" y="3"&gt;&lt;/point&gt;
-                    &lt;point x="8" y="12"&gt;&lt;/point&gt;
-                    &lt;point x="22" y="15"&gt;&lt;/point&gt;
-                &lt;/data-set&gt;
-            &lt;/dchart-line&gt;
-        </pre>
         </p>
 
         <h2>Histogramm</h2>
@@ -88,22 +77,6 @@
                 <point x="8" y="25"></point>
             </data-set>
         </dchart-histo>
-        <br>
-
-        <pre>
-            &lt;dchart-histo width="600" height="300"&gt;
-                &lt;axis&gt;
-                    &lt;x align="bottom" domain="[0,10]"&gt;f(x) [m/s²]&lt;/x&gt;
-                    &lt;y align="left" range="auto"&gt;x [m²]&lt;/y&gt;
-                &lt;/axis&gt;
-                &lt;data-set stroke="green" stroke-width="1.5"&gt;
-                    &lt;point x="2" y="4"&gt;&lt;/point&gt;
-                    &lt;point x="4" y="8"&gt;&lt;/point&gt;
-                    &lt;point x="6" y="15"&gt;&lt;/point&gt;
-                    &lt;point x="8" y="25"&gt;&lt;/point&gt;
-                &lt;/data-set&gt;
-            &lt;/dchart-histo&gt;
-        </pre>
         </p>
 
     </body>
