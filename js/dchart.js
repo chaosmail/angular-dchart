@@ -139,7 +139,15 @@ var _dchart2D = (function(_super) {
     _dchart2D.prototype.parseData = function(data, elem) {
         if (elem === null) return;
 
-        var set = {label:"",stroke:this.getRandomColor(),fill:"#000",opacity:1,fillOpacity:1,strokeWidth:1,data:[]},
+        var set = { label:"",
+                    stroke:this.getRandomColor(),
+                    fill:"#000",
+                    opacity:1,
+                    fillOpacity:1,
+                    strokeWidth:1,
+                    interpolate:"linear",
+                    data:[]
+                },
             self = this;
 
         angular.forEach(elem.attributes, function (value, key) {
@@ -148,6 +156,9 @@ var _dchart2D = (function(_super) {
             }
             else if (value.nodeName.match(/^stroke$/i)) {
                 set.stroke = value.nodeValue;
+            }
+            else if (value.nodeName.match(/^interpolate$/i)) {
+                set.interpolate = value.nodeValue;
             }
             else if (value.nodeName.match(/^fill$/i)) {
                 set.fill = value.nodeValue;

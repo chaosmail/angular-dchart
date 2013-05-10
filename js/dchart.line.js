@@ -18,12 +18,10 @@ var _dchartLine = (function(_super) {
     // Draw the Chart Data 
     _dchartLine.prototype.drawData = function(scope) {
 
-        var line = d3.svg.line()
-            .x(function(d) { return scope.xScale(d.x); })
-            .y(function(d) { return scope.yScale(d.y); });
-
-        if (scope.svgData === undefined || scope.svgData === null)
+        if (scope.svgData === undefined || scope.svgData === null) {
             scope.svgData = [];
+            scope.lineFn = [];
+        }
 
         angular.forEach(scope.data, function(value, key) {
 
@@ -32,13 +30,17 @@ var _dchartLine = (function(_super) {
                                         .append("g")
                                         .attr("class", "data")
                                         .append("svg:path");
+
+                scope.lineFn[key] = d3.svg.line().interpolate(value.interpolate)
+                                        .x(function(d) { return scope.xScale(d.x); })
+                                        .y(function(d) { return scope.yScale(d.y); });
             }
 
                 scope.svgData[key]
                     .transition()
                     .duration(150)
                     .ease("cubicin")
-                    .attr("d", line(value.data))
+                    .attr("d", scope.lineFn[key](value.data))
                     .style("stroke", value.stroke)
                     .style("fill", "none")
                     .style("stroke-width", value.strokeWidth);
