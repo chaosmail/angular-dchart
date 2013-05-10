@@ -19,7 +19,7 @@ var _dchartHisto = (function(_super) {
     _dchartHisto.prototype.drawData = function(scope) {
 
         var numDataSets = scope.data.length,
-            histoWidth = scope.w / scope.axis.x.ticks;
+            histoWidth = scope.w / scope.axis.x.ticks * 0.5;
 
         if (scope.svgData === undefined || scope.svgData === null)
             scope.svgData = [];
@@ -37,15 +37,13 @@ var _dchartHisto = (function(_super) {
                                         return d.y;
                                     });
 
-            dataSet.exit()
-                .transition()
-                .duration(150)
-                .ease('cubicout')
-                .attr("y", scope.h )
-                .attr("height", 0 )
-                .each('end', function(){
-                    d3.select(this).remove();
-                });
+            // Update the x-Position and width of Existing bars
+            dataSet
+                //.transition() // <-- This is not working
+                //.duration(150)
+                //.ease('cubicin')
+                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth; } )
+                .attr("width", function(d) { return histoWidth*2; } );
 
             dataSet.enter()
                 .append("rect")
@@ -63,6 +61,17 @@ var _dchartHisto = (function(_super) {
                 .ease('cubicin')
                 .attr("y", function(d) { return scope.yScale(d.y); } )
                 .attr("height", function(d) { return scope.h - scope.yScale(d.y); } );
+
+            dataSet.exit()
+                .transition()
+                .duration(150)
+                .ease('cubicout')
+                .attr("y", scope.h )
+                .attr("height", 0 )
+                .each('end', function(){
+                    d3.select(this).remove();
+                });
+
         });
     };
 

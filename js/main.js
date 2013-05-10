@@ -19,8 +19,8 @@ app.controller("MainCtrl", ['$scope', '$timeout', function($scope,$timeout) {
         $scope.dataSetLine2.push({x:Math.random()*100,y:Math.random()*100,w:Math.random()});
         if ($scope.dataSetLine2.length > 5) $scope.dataSetLine2.shift();
 
-        $timeout(countUp, 500);
+        $timeout(countUp, 1000);
     };
 
-    $timeout(countUp, 500);
+    $timeout(countUp, 1000);
 }]);

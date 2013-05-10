@@ -45,6 +45,14 @@ var _dchartScatter = (function(_super) {
                     d3.select(this).remove();
                 });
 
+            // Update the x-Position and width of Existing bars
+            dataSet
+                //.transition() // <-- This is not working
+                //.duration(150)
+                //.ease('cubicin')
+                .attr("cx", function(d) { return scope.xScale(d.x); } )
+                .attr("cy", function(d) { return scope.yScale(d.y); } );
+
             dataSet.enter()
                 .append("circle")
                 .style("stroke", value.stroke)
