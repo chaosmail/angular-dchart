@@ -7,6 +7,14 @@ var _dchartHisto = (function(_super) {
         return _ref;
     }
 
+    _dchartHisto.prototype.ngLink = function(scope, element, attrs) {
+        scope.margin = {top: 50, right: 50, bottom: 50, left: 50};
+    };
+
+    _dchartHisto.prototype.ngWatch = function(newVal, oldVal, scope) {
+
+    };
+
     // Draw the Chart Data 
     _dchartHisto.prototype.drawData = function(scope) {
 
@@ -18,25 +26,43 @@ var _dchartHisto = (function(_super) {
 
         angular.forEach(scope.data, function(value, key) {
 
-            scope.svgData[key] = scope.svg
-                .append("g")
-                .attr("class", "data")
-                .selectAll("rect")
-                .data(value.data);
+            if (scope.svgData[key] === undefined || scope.svgData[key]  === null) {
+                scope.svgData[key] = scope.svg
+                                            .append("g")
+                                            .attr("class", "data");
+            }
 
-            scope.svgData[key].exit().remove();
+            var dataSet = scope.svgData[key].selectAll("rect")
+                                    .data(value.data, function(d) {
+                                        return d.y;
+                                    });
 
-            scope.svgData[key].enter()
+            dataSet.exit()
+                .transition()
+                .duration(150)
+                .ease('cubicout')
+                .attr("y", scope.h )
+                .attr("height", 0 )
+                .each('end', function(){
+                    d3.select(this).remove();
+                });
+
+            dataSet.enter()
                 .append("rect")
-                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth; } )
-                .attr("y", function(d) { return scope.yScale(d.y); } )
-                .attr("width", function(d) { return histoWidth*2; } )
-                .attr("height", function(d) { return scope.h - scope.yScale(d.y); } )
                 .style("stroke", value.stroke)
                 .style("fill", value.fill)
                 .style("opacity", value.opacity)
                 .style("fill-opacity", value.fillOpacity)
-                .style("stroke-width", value.strokeWidth);
+                .style("stroke-width", value.strokeWidth)
+                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth; } )
+                .attr("y", scope.h )
+                .attr("width", function(d) { return histoWidth*2; } )
+                .attr("height", 0 )
+                .transition()
+                .duration(150)
+                .ease('cubicin')
+                .attr("y", function(d) { return scope.yScale(d.y); } )
+                .attr("height", function(d) { return scope.h - scope.yScale(d.y); } );
         });
     };
 
@@ -46,24 +72,5 @@ var _dchartHisto = (function(_super) {
 
 app.directive("dchartHisto", function() {
 
-    var chart = new _dchartHisto();
-
-    // Angular Link Function
-    chart.link = function(scope, element, attrs) {
-
-        scope.margin = {top: 50, right: 50, bottom: 50, left: 50};
-
-        chart.initializeAxis(scope)
-            .initializeData(scope)
-            .parseTransclude(scope);
-
-        chart.createSvg(scope, element[0]);
-
-        /*scope.$watch('[data, axis]', function(newVal,oldVal,scope) {
-            chart.drawAxis(scope);
-            chart.drawData(scope);
-        } ,true);*/
-    };
-
-    return chart;
+    return new _dchartHisto();
 });

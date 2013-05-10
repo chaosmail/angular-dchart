@@ -9,8 +9,6 @@ var _dchart = (function() {
 
     function _dchart() {
 
-        var self = this;
-
         this.restrict = 'E';
         this.transclude = true;
         this.scope = {
@@ -49,15 +47,16 @@ var _dchart = (function() {
     };
 
     // Parse all Transclude Elements
-    _dchart.prototype.parseTransclude = function(scope) {
+    _dchart.prototype.parseTransclude = function(transcludeFn, scope) {
 
-        var transclude = this.transcludeData(scope),
-            self = this;
+        var self = this;
 
-        if (transclude === undefined || transclude === null)
+        var transcludeData = transcludeFn(scope);
+
+        if (transcludeData === undefined || transcludeData === null)
             return;
 
-        angular.forEach(transclude, function (value, key) {
+        angular.forEach(transcludeData, function (value, key) {
             if (value.nodeName.match(/^axis/i)) self.parseAxis(scope.axis, value);
             else if (value.nodeName.match(/^data-set/i)) self.parseData(scope.data, value);
         });
@@ -77,14 +76,47 @@ var _dchart = (function() {
         scope.svg = svg;
     };
 
+    // Custom Angular Compile Function
+    _dchart.prototype.ngCompile = function(element, attrs, transclude) {
+        return;
+    };
+
+    // Custom Angular Link Function
+    _dchart.prototype.ngLink = function(scope, element, attrs) {
+        return;
+    };
+
+    // Custom Angular Watch Function
+    _dchart.prototype.ngWatch = function(newVal, oldVal, scope) {
+        return;
+    };
+
     // Angular Compile Function
-    _dchart.prototype.compile = function( element, attributes, transclude ) {
+    _dchart.prototype.compile = function( element, attrs, transclude ) {
 
-        function F() {}
-        F.prototype = this;
-        F.prototype.transcludeData = transclude;
+        var self = this;
+        var transcludeFn = transclude;
 
-        return( new F().link );
+        self.ngCompile(element, attrs, transclude);
+
+        return function(scope, element, attrs) {
+
+            scope.margin = {top: 0, right: 0, bottom: 0, left: 0};
+
+            self.ngLink(scope, element, attrs);
+
+            self.initializeAxis(scope);
+            self.initializeData(scope);
+            self.parseTransclude(transcludeFn, scope);
+
+            self.createSvg(scope, element[0]);
+
+            scope.$watch('[data, axis]', function(newVal, oldVal, scope) {
+                self.drawAxis(scope);
+                self.drawData(scope);
+                self.ngWatch(newVal, oldVal, scope);
+            } ,true);
+        };
     };
 
     return _dchart;

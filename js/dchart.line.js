@@ -7,6 +7,14 @@ var _dchartLine = (function(_super) {
         return _ref;
     }
 
+    _dchartLine.prototype.ngLink = function(scope, element, attrs) {
+        scope.margin = {top: 50, right: 50, bottom: 50, left: 50};
+    };
+
+    _dchartLine.prototype.ngWatch = function(newVal, oldVal, scope) {
+
+    };
+
     // Draw the Chart Data 
     _dchartLine.prototype.drawData = function(scope) {
 
@@ -43,27 +51,5 @@ var _dchartLine = (function(_super) {
 
 app.directive("dchartLine", function() {
 
-    var chart = new _dchartLine();
-
-    // Angular Link Function
-    _dchartLine.prototype.link = function(scope, element, attrs) {
-
-        scope.margin = {top: 50, right: 50, bottom: 50, left: 50};
-
-        chart.initializeAxis(scope)
-            .initializeData(scope)
-            .parseTransclude(scope);
-
-        chart.createSvg(scope, element[0]);
-
-        // Todo:
-        // Isolate the directives
-
-        scope.$watch('[data, axis]', function(newVal,oldVal,scope) {
-            chart.drawAxis(scope);
-            chart.drawData(scope);
-        } ,true);
-    };
-
-    return chart;
+    return new _dchartLine();
 });
