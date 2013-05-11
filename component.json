@@ -1,0 +1,16 @@
+{
+  "name": "dchart",
+  "version": "0.0.1",
+  "main": "index.html",
+  "dependencies": {
+    "angular": "~1.0.6",
+    "bootstrap": "~2.3.1",
+    "d3": "~3.1.6",
+    "jquery": "~1.8.3"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
