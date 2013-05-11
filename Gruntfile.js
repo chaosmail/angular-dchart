@@ -6,6 +6,12 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    simplemocha: {
+      options: {
+        reporter: 'dot'
+      },
+      all: { src: ['test/unit/*.js'] }
+    },
     concat: {
       options: {
         stripBanners: true,
@@ -23,7 +29,7 @@ module.exports = function(grunt) {
     cssmin: {
       minify: {
         files: {
-          'dist/<%= pkg.name %>.min.css': ['build/<%= pkg.name %>.css']
+          'dist/<%= pkg.name %>.min.css': ['dist/<%= pkg.name %>.css']
         }
       }
     },
@@ -33,7 +39,7 @@ module.exports = function(grunt) {
       },
       my_target: {
         files: {
-          'dist/<%= pkg.name %>.min.js': ['build/*.js']
+          'dist/<%= pkg.name %>.min.js': ['dist/*.js']
         }
       }
     },
@@ -62,8 +68,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-simple-mocha');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat', 'cssmin','uglify']);
+  grunt.registerTask('default', ['simplemocha', 'concat', 'cssmin','uglify']);
   grunt.registerTask('lib', ['copy']);
 };

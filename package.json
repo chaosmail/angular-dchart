@@ -1,6 +1,6 @@
 {
   "name": "dchart",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Angular/D3.js Chart Directives",
   "main": "dist/dchart.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "grunt-bower-task": "",
     "grunt-contrib-copy": "",
     "grunt-contrib-watch": "",
+    "grunt-simple-mocha": "",
     "mocha": "",
     "chai": ""
   },

@@ -51,6 +51,9 @@ var _dchartLine = (function(_super) {
 
 })(_dchart2D);
 
+// Make the class available for testing with node
+if (typeof exports !== 'undefined'){ exports._dchartLine = _dchartLine; }
+
 angular.module('dchart.line', [])
     .directive("dchartLine", function() {
 

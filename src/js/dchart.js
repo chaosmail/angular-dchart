@@ -122,6 +122,9 @@ var _dchart = (function() {
     return _dchart;
 })();
 
+// Make the class available for testing with node
+if (typeof exports !== 'undefined'){ exports._dchart = _dchart; }
+
 /*
     _dchart2D
     *******************
@@ -130,7 +133,6 @@ var _dchart2D = (function(_super) {
     __extends(_dchart2D, _super);
 
     function _dchart2D() {
-        var self = this;
         var _ref = _dchart2D.__super__.constructor.apply(this, arguments);
         return _ref;
     }
@@ -371,3 +373,6 @@ var _dchart2D = (function(_super) {
     return _dchart2D;
 
 })(_dchart);
+
+// Make the class available for testing with node
+if (typeof exports !== 'undefined'){ exports._dchart2D = _dchart2D; }
