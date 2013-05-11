@@ -5,7 +5,7 @@ A Demo can be found here: http://chaosmail.at/2013/angular-dchart/
 
 Line Chart
 ----------
-
+![alt text](https://raw.github.com/chaosmail/angular-dchart/master/img/line.png "Line Chart Demo")
 ```html
 <dchart-line width="600" height="300">
 <axis>
@@ -26,7 +26,7 @@ Line Chart
 ```
 Histogramm
 ----------
-
+![alt text](https://raw.github.com/chaosmail/angular-dchart/master/img/histo.png "Histogramm Demo")
 ```html
 <dchart-histo width="600" height="300">
 <axis>
@@ -47,7 +47,7 @@ Histogramm
 ```
 Scatterplot
 -----------
-
+![alt text](https://raw.github.com/chaosmail/angular-dchart/master/img/scatter.png "Scatterplot Demo")
 ```html
 <dchart-scatter width="600" height="300">
 <axis>
@@ -66,3 +66,47 @@ Scatterplot
 </data-set>
 </dchart-scatter>
 ```
+Development
+-----------
+Get the source and install the dependencies.
+```
+clone https://github.com/chaosmail/angular-dchart.git
+npm install
+```
+Run tests and create dist
+```
+grunt
+```
+Optional: Run the Karma tests
+```
+npm test
+```
+Optional: Build the dist
+```
+grunt dist
+```
+Optional: Update the libs
+```
+grunt lib
+```
+License
+-------
+> Copyright (c) 2013 Christoph Körner
+
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+> The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
