@@ -2,7 +2,7 @@
   "name": "dchart",
   "version": "0.0.1",
   "description": "Angular/D3.js Chart Directives",
-  "main": "build/dchart.min.js",
+  "main": "build/dchart.js",
   "scripts": {
     "test": "mocha test/*.js"
   },
