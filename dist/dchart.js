@@ -1,4 +1,4 @@
-/*! dchart - v0.0.2 - 2013-05-11 */
+/*! dchart - v0.0.2 - Sat May 11 2013 21:30:49 */
 var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -24,17 +24,17 @@ var _dchart = (function() {
     };
 
     // Get Min and Max Values from Datasets
-    _dchart.prototype.getMinMaxValues = function(dataSets) {
+    _dchart.prototype.getMinMaxValues = function (_dataSets) {
 
         var minValues = {x:0,y:0},
             maxValues = {x:0,y:0};
 
-        if (data === undefined || data === null)
+        if (_dataSets === undefined || _dataSets === null)
             return [minValues, maxValues];
 
-        angular.forEach(dataSets, function (dataSet, key) {
+        angular.forEach(_dataSets, function (dataSet, key) {
             if (dataSet !== null) {
-                angular.forEach(dataSet.data, function (data) {
+                angular.forEach(dataSet.data, function (data, key) {
                     if (data.x > maxValues.x) maxValues.x = data.x;
                     else if (data.x < minValues.x) minValues.x = data.x;
 

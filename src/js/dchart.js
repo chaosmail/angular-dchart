@@ -23,17 +23,17 @@ var _dchart = (function() {
     };
 
     // Get Min and Max Values from Datasets
-    _dchart.prototype.getMinMaxValues = function(dataSets) {
+    _dchart.prototype.getMinMaxValues = function (_dataSets) {
 
         var minValues = {x:0,y:0},
             maxValues = {x:0,y:0};
 
-        if (data === undefined || data === null)
+        if (_dataSets === undefined || _dataSets === null)
             return [minValues, maxValues];
 
-        angular.forEach(dataSets, function (dataSet, key) {
+        angular.forEach(_dataSets, function (dataSet, key) {
             if (dataSet !== null) {
-                angular.forEach(dataSet.data, function (data) {
+                angular.forEach(dataSet.data, function (data, key) {
                     if (data.x > maxValues.x) maxValues.x = data.x;
                     else if (data.x < minValues.x) minValues.x = data.x;
 

@@ -4,7 +4,7 @@
   "description": "Angular/D3.js Chart Directives",
   "main": "dist/dchart.js",
   "scripts": {
-    "test": "mocha test/unit/*.js"
+    "test": "karma config/karma.unit.conf.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,9 @@
     "d3"
   ],
   "devDependencies": {
+    "bower": "",
     "grunt": "",
+    "karma": "",
     "grunt-contrib-concat": "",
     "grunt-contrib-uglify": "",
     "grunt-contrib-cssmin": "",
@@ -25,11 +27,12 @@
     "grunt-contrib-copy": "",
     "grunt-contrib-watch": "",
     "grunt-karma": "",
+    "grunt-bower-task": "",
+    "grunt-contrib-clean":"",
     "mocha": "",
     "chai": ""
   },
   "author": "Christoph Körner <office@chaosmail.at> (http://chaosmail.at)",
   "license": "MIT",
-  "readmeFilename": "README.md",
-  "gitHead": "9a0d9c6232ae779253a832d63395f35315b40c57"
+  "readmeFilename": "README.md"
 }

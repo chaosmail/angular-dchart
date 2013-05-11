@@ -1,5 +1,5 @@
 var banner = '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-             '<%= grunt.template.today("yyyy-mm-dd") %> */\n';
+             '<%= grunt.template.today() %> */\n';
 
 module.exports = function(grunt) {
 
@@ -9,6 +9,14 @@ module.exports = function(grunt) {
     karma: {
       unit: {
         configFile: 'config/karma.unit.conf.js'
+      }
+    },
+    clean: {
+      dist: {
+        src: ["dist/"]
+      },
+      lib: {
+        src: ["components/","lib/"]
       }
     },
     concat: {
@@ -26,7 +34,7 @@ module.exports = function(grunt) {
       }
     },
     cssmin: {
-      minify: {
+      dist: {
         files: {
           'dist/<%= pkg.name %>.min.css': ['dist/<%= pkg.name %>.css']
         }
@@ -36,7 +44,7 @@ module.exports = function(grunt) {
       options: {
         banner: banner
       },
-      my_target: {
+      dist: {
         files: {
           'dist/<%= pkg.name %>.min.js': ['dist/*.js']
         }
@@ -50,6 +58,17 @@ module.exports = function(grunt) {
           'lib/angular-mocks.js': 'components/angular-mocks/angular-mocks.js',
           'lib/d3.js': 'components/d3/d3.js',
           'lib/d3.min.js': 'components/d3/d3.min.js'
+        }
+      }
+    },
+    bower: {
+      install: {
+        options: {
+          targetDir: 'components/',
+          install: true,
+          verbose: false,
+          cleanTargetDir: true,
+          cleanBowerDir: false
         }
       }
     },
@@ -68,9 +87,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Default task(s).
-  grunt.registerTask('default', ['karma', 'concat', 'cssmin', 'uglify']);
-  grunt.registerTask('dist', ['concat', 'cssmin','uglify']);
-  grunt.registerTask('lib', ['copy']);
+  grunt.registerTask('default', ['karma', 'clean:dist', 'concat', 'cssmin', 'uglify']);
+  grunt.registerTask('dist', ['clean:dist', 'concat', 'cssmin', 'uglify']);
+  grunt.registerTask('lib', ['clean:lib', 'bower', 'copy']);
 };
