@@ -13,17 +13,17 @@ module.exports = function(grunt) {
       },
       css: {
         src: ['src/css/*.css'],
-        dest: 'build/<%= pkg.name %>.css'
+        dest: 'dist/<%= pkg.name %>.css'
       },
       js: {
         src: ['src/js/<%= pkg.name %>.js','src/js/<%= pkg.name %>.*.js'],
-        dest: 'build/<%= pkg.name %>.js'
+        dest: 'dist/<%= pkg.name %>.js'
       }
     },
     cssmin: {
       minify: {
         files: {
-          'build/<%= pkg.name %>.min.css': ['build/<%= pkg.name %>.css']
+          'dist/<%= pkg.name %>.min.css': ['build/<%= pkg.name %>.css']
         }
       }
     },
@@ -33,23 +33,18 @@ module.exports = function(grunt) {
       },
       my_target: {
         files: {
-          'build/<%= pkg.name %>.min.js': ['build/*.js']
+          'dist/<%= pkg.name %>.min.js': ['build/*.js']
         }
       }
     },
     copy: {
       copyLibs: {
         files: {
-          'libs/angular.js': 'components/angular/angular.js',
-          'libs/angular.min.js': 'components/angular/angular.min.js',
-          'libs/jquery.js': 'components/jquery/jquery.js',
-          'libs/jquery.min.js': 'components/jquery/jquery.min.js',
-          'libs/d3.js': 'components/d3/d3.js',
-          'libs/d3.min.js': 'components/d3/d3.min.js',
-          'libs/bootstrap.js': 'components/bootstrap/bootstrap/js/bootstrap.js',
-          'libs/bootstrap.min.js': 'components/bootstrap/bootstrap/js/bootstrap.min.js',
-          'libs/bootstrap.css': 'components/bootstrap/bootstrap/css/bootstrap.css',
-          'libs/bootstrap.min.css': 'components/bootstrap/bootstrap/css/bootstrap.min.css'
+          'lib/angular.js': 'components/angular/angular.js',
+          'lib/angular.min.js': 'components/angular/angular.min.js',
+          'lib/angular-mocks.js': 'components/angular-mocks/angular-mocks.js',
+          'lib/d3.js': 'components/d3/d3.js',
+          'lib/d3.min.js': 'components/d3/d3.min.js'
         }
       }
     },
@@ -70,5 +65,5 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['concat', 'cssmin','uglify']);
-  grunt.registerTask('libs', ['copy']);
+  grunt.registerTask('lib', ['copy']);
 };

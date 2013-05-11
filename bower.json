@@ -1,12 +1,11 @@
 {
   "name": "dchart",
   "version": "0.0.1",
-  "main": "build/dchart.js",
+  "main": "dist/dchart.js",
   "dependencies": {
     "angular": "~1.0.6",
-    "bootstrap": "~2.3.1",
-    "d3": "~3.1.6",
-    "jquery": "~1.8.3"
+    "angular-mocks": "~1.0.6",
+    "d3": "~3.1.6"
   },
   "ignore": [
     "**/.*",

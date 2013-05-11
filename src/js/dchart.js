@@ -23,7 +23,7 @@ var _dchart = (function() {
     };
 
     // Get Min and Max Values from Datasets
-    _dchart.prototype.getMinMaxValues = function(data) {
+    _dchart.prototype.getMinMaxValues = function(dataSets) {
 
         var minValues = {x:0,y:0},
             maxValues = {x:0,y:0};
@@ -31,14 +31,14 @@ var _dchart = (function() {
         if (data === undefined || data === null)
             return [minValues, maxValues];
 
-        angular.forEach(data, function (value, key) {
-            if (value !== null) {
-                angular.forEach(value.data, function (point) {
-                    if (point.x > maxValues.x) maxValues.x = point.x;
-                    else if (point.x < minValues.x) minValues.x = point.x;
+        angular.forEach(dataSets, function (dataSet, key) {
+            if (dataSet !== null) {
+                angular.forEach(dataSet.data, function (data) {
+                    if (data.x > maxValues.x) maxValues.x = data.x;
+                    else if (data.x < minValues.x) minValues.x = data.x;
 
-                    if (point.y > maxValues.y) maxValues.y = point.y;
-                    else if (point.y < minValues.y) minValues.y = point.y;
+                    if (data.y > maxValues.y) maxValues.y = data.y;
+                    else if (data.y < minValues.y) minValues.y = data.y;
                 });
             }
         });
@@ -58,7 +58,7 @@ var _dchart = (function() {
 
         angular.forEach(transcludeData, function (value, key) {
             if (value.nodeName.match(/^axis/i)) self.parseAxis(scope.axis, value);
-            else if (value.nodeName.match(/^data-set/i)) self.parseData(scope.data, value);
+            else if (value.nodeName.match(/^data-set/i)) self.parseDataSet(scope.data, value);
         });
     };
 
@@ -136,7 +136,7 @@ var _dchart2D = (function(_super) {
     }
 
     // Parse all Data from Transclude Elem
-    _dchart2D.prototype.parseData = function(data, elem) {
+    _dchart2D.prototype.parseDataSet = function(data, elem) {
         if (elem === null) return;
 
         var set = { label:"",
@@ -184,39 +184,43 @@ var _dchart2D = (function(_super) {
 
         angular.forEach(elem.children, function (value, key) {
             if (value.nodeName.match(/^data/i)) {
-                var point = self.parseDataPoint(value);
+                var data = self.parseData(value);
 
-                if (point !== null) {
-                    set.data.push(point);
+                if (data !== null) {
+                    set.data.push(data);
                 }
             }
         });
         data.push(set);
     };
 
-    // Parse all Attributes from a Point
-    _dchart2D.prototype.parseDataPoint = function(elem) {
+    // Parse all Attributes from a Data Elem
+    _dchart2D.prototype.parseData = function(elem) {
         if (elem === null) return null;
 
-        // x and y .. Coordinates
-        // w .. Weight of a single point
-        // label .. Caption of a single point
-        var point = {x:0,y:0,w:1,label:elem.innerText},
+        // x and y .. coordinates
+        // w .. weight
+        // t .. time
+        // label .. caption
+        var data = {x:0,y:0,t:0,w:1,label:elem.innerText},
             self = this;
 
         angular.forEach(elem.attributes, function (value, key) {
             if (value.nodeName.match(/^x$/i)) {
-                point.x = parseFloat(value.nodeValue);
+                data.x = parseFloat(value.nodeValue);
             }
-            else if (value.nodeName.match(/^y$/i)) {
-                point.y = parseFloat(value.nodeValue);
+            else if (value.nodeName.match(/^(y|val|value)$/i)) {
+                data.y = parseFloat(value.nodeValue);
             }
-            else if (value.nodeName.match(/^w$/i)) {
-                point.w = parseFloat(value.nodeValue);
+            else if (value.nodeName.match(/^(t|time)$/i)) {
+                data.t = parseFloat(value.nodeValue);
+            }
+            else if (value.nodeName.match(/^(w|weight)$/i)) {
+                data.w = parseFloat(value.nodeValue);
             }
         });
 
-        return point;
+        return data;
     };
 
     // Parse all Axis from Transclude Elem

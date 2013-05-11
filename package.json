@@ -2,11 +2,14 @@
   "name": "dchart",
   "version": "0.0.1",
   "description": "Angular/D3.js Chart Directives",
-  "main": "build/dchart.js",
+  "main": "dist/dchart.js",
   "scripts": {
-    "test": "mocha test/*.js"
+    "test": "mocha test/unit/*.js"
   },
-  "repository": "https://github.com/chaosmail/angular-dchart",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chaosmail/angular-dchart"
+  },
   "keywords": [
     "dchart",
     "chart",
@@ -22,7 +25,7 @@
     "grunt-contrib-copy": "",
     "grunt-contrib-watch": "",
     "mocha": "",
-    "should": ""
+    "chai": ""
   },
   "author": "Christoph Körner <office@chaosmail.at> (http://chaosmail.at)",
   "license": "MIT",
