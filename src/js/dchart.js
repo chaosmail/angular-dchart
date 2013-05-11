@@ -122,9 +122,6 @@ var _dchart = (function() {
     return _dchart;
 })();
 
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchart = _dchart; }
-
 /*
     _dchart2D
     *******************
@@ -373,6 +370,3 @@ var _dchart2D = (function(_super) {
     return _dchart2D;
 
 })(_dchart);
-
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchart2D = _dchart2D; }

@@ -24,7 +24,7 @@
     "grunt-bower-task": "",
     "grunt-contrib-copy": "",
     "grunt-contrib-watch": "",
-    "grunt-simple-mocha": "",
+    "grunt-karma": "",
     "mocha": "",
     "chai": ""
   },

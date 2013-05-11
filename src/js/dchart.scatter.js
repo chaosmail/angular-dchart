@@ -74,9 +74,6 @@ var _dchartScatter = (function(_super) {
 
 })(_dchart2D);
 
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchartScatter = _dchartScatter; }
-
 angular.module('dchart.scatter', [])
     .directive("dchartScatter", function() {
 

@@ -1,7 +1,3 @@
-var expect = require('chai').expect,
-    _dchart = require('../../src/js/dchart.js')._dchart,
-    _dchart2D = require('../../src/js/dchart.js')._dchart2D;
-
 describe('_dchart2D', function(){
 
   var chart = new _dchart2D();

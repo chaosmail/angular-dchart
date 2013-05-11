@@ -123,9 +123,6 @@ var _dchart = (function() {
     return _dchart;
 })();
 
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchart = _dchart; }
-
 /*
     _dchart2D
     *******************
@@ -375,8 +372,6 @@ var _dchart2D = (function(_super) {
 
 })(_dchart);
 
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchart2D = _dchart2D; }
 var _dchartHisto = (function(_super) {
     __extends(_dchartHisto, _super);
 
@@ -458,9 +453,6 @@ var _dchartHisto = (function(_super) {
 
 })(_dchart2D);
 
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchartHisto = _dchartHisto; }
-
 angular.module('dchart.histo', [])
     .directive("dchartHisto", function() {
 
@@ -519,9 +511,6 @@ var _dchartLine = (function(_super) {
   return _dchartLine;
 
 })(_dchart2D);
-
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchartLine = _dchartLine; }
 
 angular.module('dchart.line', [])
     .directive("dchartLine", function() {
@@ -604,9 +593,6 @@ var _dchartScatter = (function(_super) {
   return _dchartScatter;
 
 })(_dchart2D);
-
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchartScatter = _dchartScatter; }
 
 angular.module('dchart.scatter', [])
     .directive("dchartScatter", function() {

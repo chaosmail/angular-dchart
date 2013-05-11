@@ -79,9 +79,6 @@ var _dchartHisto = (function(_super) {
 
 })(_dchart2D);
 
-// Make the class available for testing with node
-if (typeof exports !== 'undefined'){ exports._dchartHisto = _dchartHisto; }
-
 angular.module('dchart.histo', [])
     .directive("dchartHisto", function() {
 

@@ -6,11 +6,10 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    simplemocha: {
-      options: {
-        reporter: 'dot'
-      },
-      all: { src: ['test/unit/*.js'] }
+    karma: {
+      unit: {
+        configFile: 'config/karma.unit.conf.js'
+      }
     },
     concat: {
       options: {
@@ -68,9 +67,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-simple-mocha');
+  grunt.loadNpmTasks('grunt-karma');
 
   // Default task(s).
-  grunt.registerTask('default', ['simplemocha', 'concat', 'cssmin','uglify']);
+  grunt.registerTask('default', ['karma', 'concat', 'cssmin', 'uglify']);
+  grunt.registerTask('dist', ['concat', 'cssmin','uglify']);
   grunt.registerTask('lib', ['copy']);
 };

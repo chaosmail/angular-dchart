@@ -1,6 +1,3 @@
-var expect = require('chai').expect,
-    _dchart = require('../../src/js/dchart.js')._dchart;
-
 describe('_dchart', function(){
 
   var chart = new _dchart();
