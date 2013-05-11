@@ -79,7 +79,8 @@ var _dchartHisto = (function(_super) {
 
 })(_dchart2D);
 
-app.directive("dchartHisto", function() {
+angular.module('dchart.histo', [])
+    .directive("dchartHisto", function() {
 
     return new _dchartHisto();
 });

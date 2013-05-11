@@ -1,19 +1,43 @@
 <!DOCTYPE HTML>
-<html xmlns:ng="http://angularjs.org" ng-app="dchart">
+<html xmlns:ng="http://angularjs.org" ng-app="dchart.demo">
     <head>
         <title>Angular/D3.js Chart Directives</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="components/bootstrap/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="css/screen.css">
+        <link rel="stylesheet" type="text/css" href="../libs/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="../build/dchart.min.css">
 
-        <script type="text/javascript" src="components/angular/angular.js"></script>
-        <script type="text/javascript" src="components/d3/d3.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../libs/angular.js"></script>
+        <script type="text/javascript" src="../libs/d3.js" charset="utf-8"></script>
 
-        <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="js/dchart.js"></script>
-        <script type="text/javascript" src="js/dchart.line.js"></script>
-        <script type="text/javascript" src="js/dchart.histo.js"></script>
-        <script type="text/javascript" src="js/dchart.scatter.js"></script>
+        <script type="text/javascript" src="../build/dchart.min.js"></script>
+
+        <script type="text/javascript">
+            var app = angular.module('dchart.demo', ['dchart.line', 'dchart.histo', 'dchart.scatter']);
+
+            app.controller("MainCtrl", ['$scope', '$timeout', function($scope,$timeout) {
+
+                $scope.dataSetLine1 = [
+                    {x:5,y:5,w:1}, {x:15,y:35,w:1}, {x:45,y:25,w:1}
+                ];
+
+                $scope.dataSetLine2 = [
+                    {x:5,y:5,w:1}, {x:15,y:35,w:1}, {x:45,y:25,w:1}
+                ];
+
+                var countUp = function() {
+
+                    $scope.dataSetLine1.push({x:Math.random()*100,y:Math.random()*100,w:Math.random()});
+                    if ($scope.dataSetLine1.length > 5) $scope.dataSetLine1.shift();
+
+                    $scope.dataSetLine2.push({x:Math.random()*100,y:Math.random()*100,w:Math.random()});
+                    if ($scope.dataSetLine2.length > 5) $scope.dataSetLine2.shift();
+
+                    $timeout(countUp, 1000);
+                };
+
+                $timeout(countUp, 1000);
+            }]);
+        </script>
     </head>
     <body ng-controller="MainCtrl">
         <h1>Angular/D3.js Chart Directives</h1>

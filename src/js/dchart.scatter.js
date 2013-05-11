@@ -74,7 +74,8 @@ var _dchartScatter = (function(_super) {
 
 })(_dchart2D);
 
-app.directive("dchartScatter", function() {
+angular.module('dchart.scatter', [])
+    .directive("dchartScatter", function() {
 
     return new _dchartScatter();
 });

@@ -51,7 +51,8 @@ var _dchartLine = (function(_super) {
 
 })(_dchart2D);
 
-app.directive("dchartLine", function() {
+angular.module('dchart.line', [])
+    .directive("dchartLine", function() {
 
     return new _dchartLine();
 });

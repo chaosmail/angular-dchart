@@ -1,7 +1,7 @@
 {
   "name": "dchart",
   "version": "0.0.1",
-  "main": "index.html",
+  "main": "build/dchart.min.js",
   "dependencies": {
     "angular": "~1.0.6",
     "bootstrap": "~2.3.1",
