@@ -2,6 +2,13 @@ Angular/D3.js Chart Directives
 ==============================
 
 A Demo can be found here: http://chaosmail.at/2013/angular-dchart/
+Features
+--------
++ Angular Directives for different Chart types
++ Data Binding
++ Fully customizable Options (Axes, Datasets) via Html tags
++ Autorescaling
++ Easy Extensibility (Checkout the source of the different Chart types, generally they only need a drawData() function)
 
 Line Chart
 ----------
@@ -89,6 +96,16 @@ Optional: Update the libs
 ```
 grunt lib
 ```
+Todo
+----
++ Add opportunity for time values on x-Axis
++ Add different scaling-options for Axis
++ Add more Chart types
++ Add Function as data-source
++ Improve the demos
++ Improve unit tests
++ Add e2e tests
+
 License
 -------
 > Copyright (c) 2013 Christoph Körner
