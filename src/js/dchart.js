@@ -58,7 +58,7 @@ var _dchart = (function() {
 
         angular.forEach(transcludeData, function (value, key) {
             if (value.nodeName.match(/^axis/i)) self.parseAxis(scope.axis, value);
-            else if (value.nodeName.match(/^data-set/i)) self.parseDataSet(scope.data, value);
+            else if (value.nodeName.match(/^data-set/i)) self.parseDataSet(scope.data, value, scope.axis.x);
         });
     };
 
@@ -94,8 +94,8 @@ var _dchart = (function() {
     // Angular Compile Function
     _dchart.prototype.compile = function( element, attrs, transclude ) {
 
-        var self = this;
-        var transcludeFn = transclude;
+        var self = this,
+            transcludeFn = transclude;
 
         self.ngCompile(element, attrs, transclude);
 
@@ -135,7 +135,7 @@ var _dchart2D = (function(_super) {
     }
 
     // Parse all Data from Transclude Elem
-    _dchart2D.prototype.parseDataSet = function(data, elem) {
+    _dchart2D.prototype.parseDataSet = function(data, elem, xAxis) {
         if (elem === null) return;
 
         var set = { label:"",
@@ -144,8 +144,12 @@ var _dchart2D = (function(_super) {
                     opacity:1,
                     fillOpacity:1,
                     strokeWidth:1,
+                    fn:undefined,
+                    min:0,
+                    max:0,
                     interpolate:"linear",
-                    data:[]
+                    data:[],
+                    dataFn:undefined
                 },
             self = this;
 
@@ -162,6 +166,12 @@ var _dchart2D = (function(_super) {
             else if (value.nodeName.match(/^fill$/i)) {
                 set.fill = value.nodeValue;
             }
+            else if (value.nodeName.match(/^min$/i)) {
+                set.min = parseFloat(value.nodeValue);
+            }
+            else if (value.nodeName.match(/^max$/i)) {
+                set.max = parseFloat(value.nodeValue);
+            }
             else if (value.nodeName.match(/^stroke-width$/i)) {
                 set.strokeWidth = parseFloat(value.nodeValue);
             }
@@ -172,11 +182,32 @@ var _dchart2D = (function(_super) {
                 set.opacity = parseFloat(value.nodeValue);
             }
             else if (value.nodeName.match(/^data$/i)) {
-                // Access the Data from Element's parent scope
-                var scope = angular.element(elem).scope();
+                if (value.nodeValue===undefined || value.nodeValue === null)
+                    return;
 
-                if (scope.$parent.hasOwnProperty(value.nodeValue)) {
-                    set.data = scope.$parent[value.nodeValue];
+                // Access the Data from Element's parent scope
+                var scope = angular.element(elem).scope(),
+                    _scopeVars = value.nodeValue.split('.'),
+                    scopeDataElem = scope.$parent,
+                    scopeDataFound = 0;
+
+                // Map the Data Element scope._dataSets.dataSet
+                angular.forEach(_scopeVars, function (scopeVar, k) {
+                    if (scopeDataElem.hasOwnProperty(scopeVar)) {   
+                        scopeDataElem = scopeDataElem[scopeVar];
+                        scopeDataFound++;
+                    }
+                });
+
+                if (!scopeDataFound) {
+                    return;
+                }
+                else if (typeof(scopeDataElem) === "function") {
+                    set.fn = scopeDataElem;
+                    self.solveFn(set, xAxis);
+                }
+                else {
+                    set.data = scopeDataElem;
                 }
             }
         });
@@ -191,6 +222,20 @@ var _dchart2D = (function(_super) {
             }
         });
         data.push(set);
+    };
+
+    _dchart2D.prototype.solveFn = function(set, xAxis) {
+        if (set.fn === undefined || set.fn === null)
+            return;
+
+        var min = set.min ? set.min : xAxis.range[0] ? parseFloat(xAxis.range[0]) : 0,
+            max = set.max ? set.max : xAxis.range[1] ? parseFloat(xAxis.range[1]) : 180,
+            ticks = xAxis.ticks ? parseFloat(xAxis.ticks) : 10,
+            range = (max - min) / ticks;
+
+        for (var x=min; x<=max; x+=range) {
+            set.data.push({x:x, y:set.fn(x)});
+        }
     };
 
     // Parse all Attributes from a Data Elem
@@ -245,10 +290,7 @@ var _dchart2D = (function(_super) {
                 axis.ticks = parseInt(value.nodeValue,10);
             }
             else if (value.nodeName.match(/^range$/i)) {
-                axis.range = value.nodeValue;
-            }
-            else if (value.nodeName.match(/^domain$/i)) {
-                axis.domain = value.nodeValue.replace(/[\[\]]/g,"").split(",");
+                axis.range = value.nodeValue.replace(/[\[\]]/g,"").split(",");
             }
             else if (value.nodeName.match(/^align$/i)) {
                 var align = value.nodeValue;
@@ -272,11 +314,11 @@ var _dchart2D = (function(_super) {
 
     // Initialize the Axis and Axis Attributes
     _dchart2D.prototype.initializeAxis = function(scope) {
-        if (scope.axis !== undefined && scope.axis !== null) return;
+        if (scope.axis !== undefined && scope.axis !== null) return this;
 
         scope.axis = {
-            x: {type:"x",domain:[0,10],label:"",align:"bottom",ticks:10,labelPos:"middle"},
-            y: {type:"y",domain:[0,10],label:"",align:"left",ticks:10,labelPos:"middle"}
+            x: {type:"x",range:"auto",label:"",align:"bottom",ticks:10,labelPos:"middle"},
+            y: {type:"y",range:"auto",label:"",align:"left",ticks:10,labelPos:"middle"}
         };
 
         return this;
@@ -284,7 +326,7 @@ var _dchart2D = (function(_super) {
 
     // Initialize the Data and Data Attributes
     _dchart2D.prototype.initializeData = function(scope) {
-        if (scope.data !== undefined && scope.data !== null) return;
+        if (scope.data !== undefined && scope.data !== null) return this;
 
         scope.data = [];
 
@@ -297,11 +339,11 @@ var _dchart2D = (function(_super) {
         var rangeValues = _dchart.prototype.getMinMaxValues(scope.data);
 
         if (scope.axis.x.range === "auto") {
-            scope.axis.x.domain = [rangeValues[0].x,rangeValues[1].x];
+            scope.axis.x.range = [rangeValues[0].x,rangeValues[1].x];
         }
 
         if (scope.axis.y.range === "auto") {
-            scope.axis.y.domain = [rangeValues[0].y,rangeValues[1].y];
+            scope.axis.y.range = [rangeValues[0].y,rangeValues[1].y];
         }
 
         var xAxisPos = scope.axis.x.align === "center" ? scope.h*0.5 :
@@ -320,8 +362,8 @@ var _dchart2D = (function(_super) {
                         scope.axis.y.labelPos === "middle" ? scope.h*0.5 :
                         0;
 
-        scope.xScale = d3.scale.linear().domain(scope.axis.x.domain).range([0, scope.w]);
-        scope.yScale = d3.scale.linear().domain(scope.axis.y.domain).range([scope.h, 0]);
+        scope.xScale = d3.scale.linear().domain(scope.axis.x.range).range([0, scope.w]);
+        scope.yScale = d3.scale.linear().domain(scope.axis.y.range).range([scope.h, 0]);
 
         var xAxis = d3.svg.axis().scale(scope.xScale).orient(xLabelOrient).ticks(scope.axis.x.ticks),
             yAxis = d3.svg.axis().scale(scope.yScale).orient(yLabelOrient).ticks(scope.axis.y.ticks);

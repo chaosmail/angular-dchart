@@ -18,10 +18,12 @@ var _dchartScatter = (function(_super) {
     // Draw the Chart Data 
     _dchartScatter.prototype.drawData = function(scope) {
 
-        var weigthFaktor = 10;
+        var weigthFactor = 10;
 
-        if (scope.svgData === undefined || scope.svgData === null)
+        if (scope.svgData === undefined || scope.svgData === null) {
             scope.svgData = [];
+            scope.symbolFn = [];
+        }
 
         angular.forEach(scope.data, function(value, key) {
 
@@ -66,7 +68,7 @@ var _dchartScatter = (function(_super) {
                 .transition()
                 .duration(150)
                 .ease('cubicin')
-                .attr("r", function(d) { return d.w * weigthFaktor; });
+                .attr("r", function(d) { return d.w * weigthFactor; });
         });
     };
 
