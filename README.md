@@ -16,47 +16,47 @@ Controller
 ```javascript
 var app = angular.module('dchart.demo', ['dchart.line', 'dchart.histo', 'dchart.scatter']);
 
-            app.controller("MainCtrl", ['$scope', function($scope) {
+app.controller("MainCtrl", ['$scope', function($scope) {
 
-                $scope.fn = {};
-                $scope.fn.sin = function(x) { return Math.sin(x*Math.PI/180); };
-                $scope.fn.cos = function(x) { return Math.cos(x*Math.PI/180); };
-                $scope.fn.tan = function(x) { return Math.tan(x*Math.PI/180); };
+$scope.fn = {};
+$scope.fn.sin = function(x) { return Math.sin(x*Math.PI/180); };
+$scope.fn.cos = function(x) { return Math.cos(x*Math.PI/180); };
+$scope.fn.tan = function(x) { return Math.tan(x*Math.PI/180); };
 
-                $scope.fn.rnd = function(x) { return Math.random()*100; };
+$scope.fn.rnd = function(x) { return Math.random()*100; };
 
-                $scope.histoDataSet1 = [
-                    {label:"monday",y:$scope.fn.rnd()},
-                    {label:"tuesday",y:$scope.fn.rnd()},
-                    {label:"wednesday",y:$scope.fn.rnd()},
-                    {label:"thursday",y:$scope.fn.rnd()},
-                    {label:"friday",y:$scope.fn.rnd()},
-                    {label:"saturday",y:$scope.fn.rnd()},
-                    {label:"sunday",y:$scope.fn.rnd()}
-                ];
+$scope.histoDataSet1 = [
+    {label:"monday",y:$scope.fn.rnd()},
+    {label:"tuesday",y:$scope.fn.rnd()},
+    {label:"wednesday",y:$scope.fn.rnd()},
+    {label:"thursday",y:$scope.fn.rnd()},
+    {label:"friday",y:$scope.fn.rnd()},
+    {label:"saturday",y:$scope.fn.rnd()},
+    {label:"sunday",y:$scope.fn.rnd()}
+];
 
-                $scope.histoDataSet2 = [
-                    {label:"06:30-07:00",y:$scope.fn.rnd()},
-                    {label:"07:00-07:30",y:$scope.fn.rnd()},
-                    {label:"07:30-08:00",y:$scope.fn.rnd()},
-                    {label:">08:00",y:$scope.fn.rnd()}
-                ];
+$scope.histoDataSet2 = [
+    {label:"06:30-07:00",y:$scope.fn.rnd()},
+    {label:"07:00-07:30",y:$scope.fn.rnd()},
+    {label:"07:30-08:00",y:$scope.fn.rnd()},
+    {label:">08:00",y:$scope.fn.rnd()}
+];
 
-                $scope.createScatterDataSet = function(max,m) {
-                    var data = [];
+$scope.createScatterDataSet = function(max,m) {
+    var data = [];
 
-                    for(var i=0; i<max; i++) {
-                        data.push({x:Math.random()*m,y:Math.random()*m,w:Math.random()});
-                    }
+    for(var i=0; i<max; i++) {
+        data.push({x:Math.random()*m,y:Math.random()*m,w:Math.random()});
+    }
 
-                    return data;
-                };
+    return data;
+};
 
-                $scope.scatterDataSet1 = $scope.createScatterDataSet(100,100);
-                $scope.scatterDataSet2 = $scope.createScatterDataSet(100,100);
-                $scope.scatterDataSet3 = $scope.createScatterDataSet(50,50);
-                $scope.scatterDataSet4 = $scope.createScatterDataSet(50,50);
-            }]);
+$scope.scatterDataSet1 = $scope.createScatterDataSet(100,100);
+$scope.scatterDataSet2 = $scope.createScatterDataSet(100,100);
+$scope.scatterDataSet3 = $scope.createScatterDataSet(50,50);
+$scope.scatterDataSet4 = $scope.createScatterDataSet(50,50);
+}]);
 ```
 
 Line Chart
