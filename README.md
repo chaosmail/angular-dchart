@@ -25,6 +25,23 @@ var app = angular.module('dchart.demo', ['dchart.line', 'dchart.histo', 'dchart.
 
                 $scope.fn.rnd = function(x) { return Math.random()*100; };
 
+                $scope.histoDataSet1 = [
+                    {label:"monday",y:$scope.fn.rnd()},
+                    {label:"tuesday",y:$scope.fn.rnd()},
+                    {label:"wednesday",y:$scope.fn.rnd()},
+                    {label:"thursday",y:$scope.fn.rnd()},
+                    {label:"friday",y:$scope.fn.rnd()},
+                    {label:"saturday",y:$scope.fn.rnd()},
+                    {label:"sunday",y:$scope.fn.rnd()}
+                ];
+
+                $scope.histoDataSet2 = [
+                    {label:"06:30-07:00",y:$scope.fn.rnd()},
+                    {label:"07:00-07:30",y:$scope.fn.rnd()},
+                    {label:"07:30-08:00",y:$scope.fn.rnd()},
+                    {label:">08:00",y:$scope.fn.rnd()}
+                ];
+
                 $scope.createScatterDataSet = function(max,m) {
                     var data = [];
 
@@ -95,6 +112,27 @@ Histogramm
     <data-set stroke="navy" fill="blue" fill-opacity="0.8" stroke-width="0.5" data="fn.sin">
     </data-set>
     <data-set stroke="slategrey" fill="silver" fill-opacity="0.8" stroke-width="0.5"  data="fn.cos">
+    </data-set>
+</dchart-histo>
+```
+![alt text](https://raw.github.com/chaosmail/angular-dchart/master/img/histo2.png "Histogramm Demo")
+```html
+<dchart-histo width="600" height="300">
+    <axis>
+        <x align="bottom">weekdays</x>
+        <y align="left">values</y>
+    </axis>
+    <data-set stroke="firebrick" fill="coral" min="1" fill-opacity="0.8" stroke-width="0.8" data="histoDataSet1">
+    </data-set>
+</dchart-histo>
+```
+```html
+<dchart-histo width="300" height="300">
+    <axis>
+        <x align="bottom" label-pos="end">wake up time</x>
+        <y align="left" label-pos="middle">people</y>
+    </axis>
+    <data-set stroke="navy" fill="blue" fill-opacity="0.8" stroke-width="0.5" data="histoDataSet2">
     </data-set>
 </dchart-histo>
 ```

@@ -317,8 +317,8 @@ var _dchart2D = (function(_super) {
         if (scope.axis !== undefined && scope.axis !== null) return this;
 
         scope.axis = {
-            x: {type:"x",range:"auto",label:"",align:"bottom",ticks:10,labelPos:"middle"},
-            y: {type:"y",range:"auto",label:"",align:"left",ticks:10,labelPos:"middle"}
+            x: {type:"x",range:"auto",label:"",align:"bottom",ticks:10,ticksFormat:[],labelPos:"middle"},
+            y: {type:"y",range:"auto",label:"",align:"left",ticks:10,ticksFormat:[],labelPos:"middle"}
         };
 
         return this;
@@ -367,6 +367,18 @@ var _dchart2D = (function(_super) {
 
         var xAxis = d3.svg.axis().scale(scope.xScale).orient(xLabelOrient).ticks(scope.axis.x.ticks),
             yAxis = d3.svg.axis().scale(scope.yScale).orient(yLabelOrient).ticks(scope.axis.y.ticks);
+
+        if (scope.axis.x.ticksFormat.length > 0) {
+            xAxis.tickFormat(function (d, i) {
+                return scope.axis.x.ticksFormat[d];
+            });
+        }
+
+        if (scope.axis.y.ticksFormat.length > 0) {
+            xAxis.tickFormat(function (d, i) {
+                return scope.axis.y.ticksFormat[d];
+            });
+        }
 
         if (scope.svgXAxis === undefined || scope.svgXAxis === null) {
             scope.svgXAxis = scope.svg.append("g").attr("class", "axis")

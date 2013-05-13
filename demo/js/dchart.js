@@ -1,4 +1,4 @@
-/*! dchart - v0.0.2 - Mon May 13 2013 00:14:01 */
+/*! dchart - v0.0.2 - Mon May 13 2013 09:52:19 */
 var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -318,8 +318,8 @@ var _dchart2D = (function(_super) {
         if (scope.axis !== undefined && scope.axis !== null) return this;
 
         scope.axis = {
-            x: {type:"x",range:"auto",label:"",align:"bottom",ticks:10,labelPos:"middle"},
-            y: {type:"y",range:"auto",label:"",align:"left",ticks:10,labelPos:"middle"}
+            x: {type:"x",range:"auto",label:"",align:"bottom",ticks:10,ticksFormat:[],labelPos:"middle"},
+            y: {type:"y",range:"auto",label:"",align:"left",ticks:10,ticksFormat:[],labelPos:"middle"}
         };
 
         return this;
@@ -368,6 +368,18 @@ var _dchart2D = (function(_super) {
 
         var xAxis = d3.svg.axis().scale(scope.xScale).orient(xLabelOrient).ticks(scope.axis.x.ticks),
             yAxis = d3.svg.axis().scale(scope.yScale).orient(yLabelOrient).ticks(scope.axis.y.ticks);
+
+        if (scope.axis.x.ticksFormat.length > 0) {
+            xAxis.tickFormat(function (d, i) {
+                return scope.axis.x.ticksFormat[d];
+            });
+        }
+
+        if (scope.axis.y.ticksFormat.length > 0) {
+            xAxis.tickFormat(function (d, i) {
+                return scope.axis.y.ticksFormat[d];
+            });
+        }
 
         if (scope.svgXAxis === undefined || scope.svgXAxis === null) {
             scope.svgXAxis = scope.svg.append("g").attr("class", "axis")
@@ -422,6 +434,41 @@ var _dchartHisto = (function(_super) {
         var _ref = _dchartHisto.__super__.constructor.apply(this, arguments);
         return _ref;
     }
+
+    _dchartHisto.prototype.parseDataSet = function(data, elem, xAxis) {
+        _dchartHisto.__super__.parseDataSet(data, elem, xAxis);
+
+        if (data === undefined || data === null)
+            return;
+
+        if (data.length === 0)
+            return;
+
+        // Check last dataset
+        var set = data[data.length-1],
+            i = 1,
+            reconfigureAxis = false;
+
+        if (set.data.length === 0)
+            return;
+
+        // if no property x is given, draw labels as ticks
+        // and generate x position
+        angular.forEach(set.data, function (value, key) {
+            if (!value.hasOwnProperty("x")) {
+                value["x"] = i;
+                i ++;
+                reconfigureAxis = true;
+                xAxis.ticksFormat.push(value.label);
+            }
+            else return;
+        });
+
+        if (reconfigureAxis) {
+            xAxis.ticks = set.data.length + 1;
+            xAxis.ticksFormat.unshift("");
+        }
+    };
 
     _dchartHisto.prototype.ngLink = function(scope, element, attrs) {
         scope.margin = {top: 50, right: 50, bottom: 50, left: 50};
