@@ -1,7 +1,7 @@
 {
-  "name": "dchart",
+  "name": "angular-dchart",
   "version": "0.0.2",
-  "main": "dist/dchart.js",
+  "main": "dist/angular-dchart.js",
   "dependencies": {
     "angular": "~1.0.6",
     "d3": "~3.1.6"

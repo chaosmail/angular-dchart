@@ -1,8 +1,8 @@
 {
-  "name": "dchart",
+  "name": "angular-dchart",
   "version": "0.0.2",
   "description": "Angular/D3.js Chart Directives",
-  "main": "dist/dchart.js",
+  "main": "dist/angular-dchart.js",
   "scripts": {
     "test": "karma config/karma.unit.conf.js"
   },

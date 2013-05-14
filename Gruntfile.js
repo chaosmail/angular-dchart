@@ -1,5 +1,7 @@
-var banner = '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-             '<%= grunt.template.today() %> */\n';
+var banner = '/** <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today() %>\n' +
+             ' *  (c) 2013 Christoph Körner, office@chaosmail.at, http://chaosmail.at\n' +
+             ' *  License: MIT\n' +
+             ' */\n';
 
 module.exports = function(grunt) {
 

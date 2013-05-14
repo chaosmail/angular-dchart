@@ -1,4 +1,7 @@
-/*! dchart - v0.0.2 - Mon May 13 2013 09:52:19 */
+/** angular-dchart - v0.0.2 - Tue May 14 2013 19:14:07
+ *  (c) 2013 Christoph Körner, office@chaosmail.at, http://chaosmail.at
+ *  License: MIT
+ */
 var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
