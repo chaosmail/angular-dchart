@@ -101,6 +101,8 @@ Histogramm
     </data-set>
     <data-set stroke="lightseagreen" fill="lightskyblue" min="1" fill-opacity="0.8" stroke-width="0.8"  data="fn.rnd">
     </data-set>
+    <data-set stroke="darkgreen" fill="green" min="1" fill-opacity="0.8" stroke-width="0.8"  data="fn.rnd">
+    </data-set>
 </dchart-histo>
 ```
 ```html

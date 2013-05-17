@@ -107,7 +107,9 @@ var _dchart = (function() {
 
             self.initializeAxis(scope);
             self.initializeData(scope);
+
             self.parseTransclude(transcludeFn, scope);
+            self.calculateFnData(scope);
 
             self.createSvg(scope, element[0]);
 
@@ -193,7 +195,7 @@ var _dchart2D = (function(_super) {
 
                 // Map the Data Element scope._dataSets.dataSet
                 angular.forEach(_scopeVars, function (scopeVar, k) {
-                    if (scopeDataElem.hasOwnProperty(scopeVar)) {   
+                    if (scopeDataElem.hasOwnProperty(scopeVar)) {
                         scopeDataElem = scopeDataElem[scopeVar];
                         scopeDataFound++;
                     }
@@ -204,7 +206,6 @@ var _dchart2D = (function(_super) {
                 }
                 else if (typeof(scopeDataElem) === "function") {
                     set.fn = scopeDataElem;
-                    self.solveFn(set, xAxis);
                 }
                 else {
                     set.data = scopeDataElem;
@@ -224,18 +225,30 @@ var _dchart2D = (function(_super) {
         data.push(set);
     };
 
-    _dchart2D.prototype.solveFn = function(set, xAxis) {
+    _dchart2D.prototype.solveFn = function(set, axis) {
         if (set.fn === undefined || set.fn === null)
             return;
 
-        var min = set.min ? set.min : xAxis.range[0] ? parseFloat(xAxis.range[0]) : 0,
+        var xAxis = axis.x,
+            min = set.min ? set.min : xAxis.range[0] ? parseFloat(xAxis.range[0]) : 0,
             max = set.max ? set.max : xAxis.range[1] ? parseFloat(xAxis.range[1]) : 180,
             ticks = xAxis.ticks ? parseFloat(xAxis.ticks) : 10,
             range = (max - min) / ticks;
 
-        for (var x=min; x<=max; x+=range) {
-            set.data.push({x:x, y:set.fn(x)});
-        }
+        set.data = (new _solver()).solve(set.fn,min,max,range);
+    };
+
+    _dchart2D.prototype.calculateFnData = function(scope) {
+        if (scope.data === undefined || scope.data.length ===0)
+            return;
+
+        var self = this;
+
+        angular.forEach(scope.data, function (set, key){
+            if (set.fn !== undefined) {
+                self.solveFn(set,scope.axis);
+            }
+        });
     };
 
     // Parse all Attributes from a Data Elem
@@ -424,3 +437,34 @@ var _dchart2D = (function(_super) {
     return _dchart2D;
 
 })(_dchart);
+
+/*
+    _solver
+    *******************
+*/
+var _solver = (function() {
+
+    function _solver() {
+
+    }
+
+    _solver.prototype.solve = function (fn,min,max,step) {
+
+        var data = [];
+
+        for (var x=min; x<=max; x+=step) {
+            data.push({x:x, y:fn(x)});
+        }
+
+        return data;
+    };
+
+    return _solver;
+
+})();
+
+angular.module('dchart.solver', [])
+.service("dchartSolver",function(){
+
+    return new _solver();
+});

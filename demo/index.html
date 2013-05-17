@@ -16,12 +16,19 @@
         <script type="text/javascript" src="lib/angular.min.js"></script>
         <script type="text/javascript" src="lib/d3.min.js" charset="utf-8"></script>
 
-        <script type="text/javascript" src="js/angular-dchart.min.js"></script>
+        <script type="text/javascript" src="js/angular-dchart.js"></script>
 
         <script type="text/javascript">
-            var app = angular.module('dchart.demo', ['dchart.line', 'dchart.histo', 'dchart.scatter']);
+            // Replace Array and Keep Reference
+            Array.prototype.replace = function(newArray) {
+                this.splice(0,this.length);
+                for(var i=0;i<newArray.length;i++)
+                    this.push(newArray[i]);
+            };
 
-            app.controller("MainCtrl", ['$scope', function($scope) {
+            var app = angular.module('dchart.demo', ['dchart.solver','dchart.line', 'dchart.histo', 'dchart.scatter']);
+
+            app.controller("MainCtrl", ['$scope','dchartSolver', function($scope, solver) {
 
                 $scope.fn = {};
 
@@ -29,9 +36,20 @@
                 $scope.fn.cos = function(x) { return Math.cos(x*Math.PI/180); };
                 $scope.fn.tan = function(x) { return Math.tan(x*Math.PI/180); };
 
-                $scope.fn.rnd = function(x) { return Math.random()*100; };
+                $scope.fn.rnd = function(x) { return Math.random()*50; };
+                $scope.fn.zero = function(x) { return 0; };
 
-                $scope.histoDataSet1 = [
+                $scope.lineData = {};
+                $scope.lineData.Set1 = solver.solve($scope.fn.rnd,0,100,5);
+                $scope.lineData.Set2 = solver.solve($scope.fn.rnd,0,100,5);
+                $scope.lineData.Set3 = solver.solve($scope.fn.rnd,0,100,5);
+
+                $scope.histoData = {};
+                $scope.histoData.Set1 = solver.solve($scope.fn.rnd,1,20,1);
+                $scope.histoData.Set2 = solver.solve($scope.fn.rnd,1,20,1);
+                $scope.histoData.Set3 = solver.solve($scope.fn.rnd,1,20,1);
+
+                $scope.histoData.Set4 = [
                     {label:"monday",y:$scope.fn.rnd()},
                     {label:"tuesday",y:$scope.fn.rnd()},
                     {label:"wednesday",y:$scope.fn.rnd()},
@@ -41,7 +59,7 @@
                     {label:"sunday",y:$scope.fn.rnd()}
                 ];
 
-                $scope.histoDataSet2 = [
+                $scope.histoData.Set5 = [
                     {label:"06:30-07:00",y:$scope.fn.rnd()},
                     {label:"07:00-07:30",y:$scope.fn.rnd()},
                     {label:"07:30-08:00",y:$scope.fn.rnd()},
@@ -63,6 +81,44 @@
                 $scope.scatterDataSet3 = $scope.createScatterDataSet(50,50);
                 $scope.scatterDataSet4 = $scope.createScatterDataSet(50,50);
 
+                $scope.randomizeLine1 = function() {
+                    $scope.lineData.Set1.replace(solver.solve($scope.fn.rnd,0,100,5));
+                    $scope.lineData.Set2.replace(solver.solve($scope.fn.rnd,0,100,5));
+                    $scope.lineData.Set3.replace(solver.solve($scope.fn.rnd,0,100,5));
+                };
+
+                $scope.randomizeHisto1 = function() {
+                    $scope.histoData.Set1.replace(solver.solve($scope.fn.rnd,1,20,1));
+                    $scope.histoData.Set2.replace(solver.solve($scope.fn.rnd,1,20,1));
+                    $scope.histoData.Set3.replace(solver.solve($scope.fn.rnd,1,20,1));
+                };
+
+                $scope.randomizeScatter1 = function() {
+                    $scope.scatterDataSet1.replace($scope.createScatterDataSet(100,100));
+                    $scope.scatterDataSet2.replace($scope.createScatterDataSet(100,100));
+                    $scope.scatterDataSet3.replace($scope.createScatterDataSet(50,50));
+                    $scope.scatterDataSet4.replace($scope.createScatterDataSet(50,50));
+                };
+
+                $scope.randomizeHisto2 = function() {
+
+                    $scope.histoData.Set4.replace([
+                        {label:"monday",y:$scope.fn.rnd()},
+                        {label:"tuesday",y:$scope.fn.rnd()},
+                        {label:"wednesday",y:$scope.fn.rnd()},
+                        {label:"thursday",y:$scope.fn.rnd()},
+                        {label:"friday",y:$scope.fn.rnd()},
+                        {label:"saturday",y:$scope.fn.rnd()},
+                        {label:"sunday",y:$scope.fn.rnd()}
+                    ]);
+
+                    $scope.histoData.Set5.replace([
+                        {label:"06:30-07:00",y:$scope.fn.rnd()},
+                        {label:"07:00-07:30",y:$scope.fn.rnd()},
+                        {label:"07:30-08:00",y:$scope.fn.rnd()},
+                        {label:">08:00",y:$scope.fn.rnd()}
+                    ]);
+                }
             }]);
         </script>
     </head>
@@ -75,17 +131,20 @@
             Source on Github: <a href="https://github.com/chaosmail/angular-dchart" target="_new">https://github.com/chaosmail/angular-dchart</a>
         </p>
         <h2>Line Chart</h2>
+        <div class="form-horizontal">
+            <button class="btn" ng-click="randomizeLine1()">Randomize!</button>
+        </div>
         <p>
         <dchart-line width="600" height="300">
             <axis>
-                <x align="right" range="[0,360]" ticks="18" label-pos="end">x Axis</x>
+                <x align="right" label-pos="end">x Axis</x>
                 <y align="top" label-pos="end">y Axis</y>
             </axis>
-            <data-set interpolate="linear" stroke="mediumslateblue" stroke-width="2" data="fn.rnd">
+            <data-set interpolate="linear" stroke="mediumslateblue" stroke-width="2" data="lineData.Set1">
             </data-set>
-            <data-set interpolate="cardinal" stroke="orange" stroke-width="2" data="fn.rnd">
+            <data-set interpolate="cardinal" stroke="orange" stroke-width="2" data="lineData.Set2">
             </data-set>
-            <data-set interpolate="cardinal" stroke="green" stroke-width="2" data="fn.rnd">
+            <data-set interpolate="cardinal" stroke="green" stroke-width="2" data="lineData.Set3">
             </data-set>
         </dchart-line>
 
@@ -102,17 +161,20 @@
         </p>
         
         <h2>Histogramm</h2>
+        <div class="form-horizontal">
+            <button class="btn" ng-click="randomizeHisto1()">Randomize!</button>
+        </div>
         <p>
         <dchart-histo width="600" height="300">
             <axis>
-                <x align="bottom" range="[0,20]" ticks="19">x Axis</x>
+                <x align="bottom" ticks="20">x Axis</x>
                 <y align="left">y Axis</y>
             </axis>
-            <data-set stroke="firebrick" fill="coral" min="1" fill-opacity="0.8" stroke-width="0.8" data="fn.rnd">
+            <data-set stroke="firebrick" fill="coral" fill-opacity="0.8" stroke-width="0.8" data="histoData.Set1">
             </data-set>
-            <data-set stroke="lightseagreen" min="1" fill="lightskyblue" fill-opacity="0.8" stroke-width="0.8"  data="fn.rnd">
+            <data-set stroke="lightseagreen" fill="lightskyblue" fill-opacity="0.8" stroke-width="0.8"  data="histoData.Set2">
             </data-set>
-            <data-set stroke="darkgreen" fill="green" min="1" fill-opacity="0.8" stroke-width="0.8"  data="fn.rnd">
+            <data-set stroke="blue" fill="cornflowerblue" min="1" fill-opacity="0.8" stroke-width="0.8"  data="histoData.Set3">
             </data-set>
         </dchart-histo>
 
@@ -133,7 +195,7 @@
                 <x align="bottom">weekdays</x>
                 <y align="left">values</y>
             </axis>
-            <data-set stroke="firebrick" fill="coral" min="1" fill-opacity="0.8" stroke-width="0.8" data="histoDataSet1">
+            <data-set stroke="firebrick" fill="coral" min="1" fill-opacity="0.8" stroke-width="0.8" data="histoData.Set4">
             </data-set>
         </dchart-histo>
         
@@ -142,19 +204,22 @@
                 <x align="bottom" label-pos="end">wake up time</x>
                 <y align="left" label-pos="middle">people</y>
             </axis>
-            <data-set stroke="navy" fill="blue" fill-opacity="0.8" stroke-width="0.5" data="histoDataSet2">
+            <data-set stroke="navy" fill="blue" fill-opacity="0.8" stroke-width="0.5" data="histoData.Set5">
             </data-set>
         </dchart-histo>
         </p>
 
         <h2>Scatter Plot</h2>
+        <div class="form-horizontal">
+            <button class="btn" ng-click="randomizeScatter1()">Randomize!</button>
+        </div>
         <p>
         <dchart-scatter width="600" height="300">
             <axis>
                 <x align="bottom">x Axis</x>
                 <y align="left">y Axis</y>
             </axis>
-            <data-set stroke="darkgreen" fill="green" min="0" max="5" fill-opacity="0.8" stroke-width="0.5" data="scatterDataSet1">
+            <data-set stroke="darkgreen" fill="green" fill-opacity="0.8" stroke-width="0.5" data="scatterDataSet1">
             </data-set>
             <data-set stroke="darkorange" fill="orange" fill-opacity="0.8" stroke-width="0.5"  data="scatterDataSet2">
             </data-set>
