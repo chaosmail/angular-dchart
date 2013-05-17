@@ -37,7 +37,7 @@ var _dchartHisto = (function(_super) {
         });
 
         if (reconfigureAxis) {
-            xAxis.ticks = set.data.length + 1;
+            xAxis.ticks = set.data.length;
             xAxis.ticksFormat.unshift("");
         }
     };
@@ -54,7 +54,8 @@ var _dchartHisto = (function(_super) {
     _dchartHisto.prototype.drawData = function(scope) {
 
         var numDataSets = scope.data.length,
-            histoWidth = scope.w / scope.axis.x.ticks * 0.5;
+            histoWidth = scope.w / scope.axis.x.ticks * 1/numDataSets * 0.8,
+            actDataSet = 0;
 
         if (scope.svgData === undefined || scope.svgData === null)
             scope.svgData = [];
@@ -77,8 +78,8 @@ var _dchartHisto = (function(_super) {
                 //.transition() // <-- This is not working
                 //.duration(150)
                 //.ease('cubicin')
-                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth; } )
-                .attr("width", function(d) { return histoWidth*2; } );
+                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
+                .attr("width", function(d) { return histoWidth; } );
 
             dataSet.enter()
                 .append("rect")
@@ -87,9 +88,9 @@ var _dchartHisto = (function(_super) {
                 .style("opacity", value.opacity)
                 .style("fill-opacity", value.fillOpacity)
                 .style("stroke-width", value.strokeWidth)
-                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth; } )
+                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
                 .attr("y", scope.h )
-                .attr("width", function(d) { return histoWidth*2; } )
+                .attr("width", function(d) { return histoWidth; } )
                 .attr("height", 0 )
                 .transition()
                 .duration(150)
@@ -107,6 +108,7 @@ var _dchartHisto = (function(_super) {
                     d3.select(this).remove();
                 });
 
+            actDataSet ++;
         });
     };
 
