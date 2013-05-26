@@ -58,7 +58,7 @@ var _dchart = (function() {
 
         angular.forEach(transcludeData, function (value, key) {
             if (value.nodeName.match(/^axis/i)) self.parseAxis(scope.axis, value);
-            else if (value.nodeName.match(/^data-set/i)) self.parseDataSet(scope.data, value, scope.axis.x);
+            else if (value.nodeName.match(/^data-set/i)) self.parseDataSet(scope.data, value, scope.axis);
         });
     };
 
@@ -113,7 +113,8 @@ var _dchart = (function() {
 
             self.createSvg(scope, element[0]);
 
-            scope.$watch('[data, axis]', function(newVal, oldVal, scope) {
+            scope.$watch('[data]', function(newVal, oldVal, scope) {
+                self.prepareChart(scope);
                 self.drawAxis(scope);
                 self.drawData(scope);
                 self.ngWatch(newVal, oldVal, scope);
@@ -136,8 +137,47 @@ var _dchart2D = (function(_super) {
         return _ref;
     }
 
+    _dchart2D.prototype.prepareChart = function(scope) {
+        if (scope.data === undefined || scope.data === null) return;
+
+        var self = this,
+            _drawData = [],
+            i = 0;
+
+        angular.forEach(scope.data, function (dataSet, key){
+            // Deep Copy Object
+            var _dataSet = JSON.parse(JSON.stringify(dataSet));
+            self.prepareDataSet(_dataSet, i);
+            _drawData.push(_dataSet);
+            self.prepareAxis(scope.axis, _dataSet, i);
+            i++;
+        });
+
+        scope.drawDataSets = _drawData;
+    };
+
+    _dchart2D.prototype.prepareAxis = function(axis, dataSet, count) {
+        if (dataSet === undefined || dataSet === null) return;
+    };
+
+    _dchart2D.prototype.prepareDataSet = function(dataSet, count) {
+        if (dataSet === undefined || dataSet === null) return;
+
+        var self = this,
+            i = 0;
+
+        angular.forEach(dataSet.data, function (data, key){
+            self.prepareData(data, i);
+            i++;
+        });
+    };
+
+    _dchart2D.prototype.prepareData = function(data, count) {
+        if (data === undefined || data === null) return;
+    };
+
     // Parse all Data from Transclude Elem
-    _dchart2D.prototype.parseDataSet = function(data, elem, xAxis) {
+    _dchart2D.prototype.parseDataSet = function(data, elem, axis) {
         if (elem === null) return;
 
         var set = { label:"",
@@ -153,7 +193,8 @@ var _dchart2D = (function(_super) {
                     data:[],
                     dataFn:undefined
                 },
-            self = this;
+            self = this
+            xAxis = axis.x;
 
         angular.forEach(elem.attributes, function (value, key) {
             if (value.nodeName.match(/^label$/i)) {
@@ -349,7 +390,7 @@ var _dchart2D = (function(_super) {
     // Draw the Axis
     _dchart2D.prototype.drawAxis = function(scope) {
 
-        var rangeValues = _dchart.prototype.getMinMaxValues(scope.data);
+        var rangeValues = _dchart.prototype.getMinMaxValues(scope.drawDataSets);
 
         if (scope.axis.x.range === "auto") {
             scope.axis.x.range = [rangeValues[0].x,rangeValues[1].x];

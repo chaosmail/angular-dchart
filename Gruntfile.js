@@ -105,6 +105,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['karma', 'clean:dist', 'concat', 'cssmin', 'uglify', 'clean:demo', 'copy:demo']);
-  grunt.registerTask('dist', ['clean:dist', 'concat', 'cssmin', 'uglify']);
+  grunt.registerTask('dist', ['clean:dist', 'concat', 'cssmin', 'uglify', 'clean:demo', 'copy:demo']);
   grunt.registerTask('lib', ['clean:lib', 'bower', 'copy:libs']);
 };

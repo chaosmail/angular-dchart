@@ -1,4 +1,4 @@
-/** angular-dchart - v0.0.2 - Fri May 17 2013 18:22:11
+/** angular-dchart - v0.0.2 - Sun May 26 2013 17:34:43
  *  (c) 2013 Christoph Körner, office@chaosmail.at, http://chaosmail.at
  *  License: MIT
  */
@@ -62,7 +62,7 @@ var _dchart = (function() {
 
         angular.forEach(transcludeData, function (value, key) {
             if (value.nodeName.match(/^axis/i)) self.parseAxis(scope.axis, value);
-            else if (value.nodeName.match(/^data-set/i)) self.parseDataSet(scope.data, value, scope.axis.x);
+            else if (value.nodeName.match(/^data-set/i)) self.parseDataSet(scope.data, value, scope.axis);
         });
     };
 
@@ -117,7 +117,8 @@ var _dchart = (function() {
 
             self.createSvg(scope, element[0]);
 
-            scope.$watch('[data, axis]', function(newVal, oldVal, scope) {
+            scope.$watch('[data]', function(newVal, oldVal, scope) {
+                self.prepareChart(scope);
                 self.drawAxis(scope);
                 self.drawData(scope);
                 self.ngWatch(newVal, oldVal, scope);
@@ -140,8 +141,47 @@ var _dchart2D = (function(_super) {
         return _ref;
     }
 
+    _dchart2D.prototype.prepareChart = function(scope) {
+        if (scope.data === undefined || scope.data === null) return;
+
+        var self = this,
+            _drawData = [],
+            i = 0;
+
+        angular.forEach(scope.data, function (dataSet, key){
+            // Deep Copy Object
+            var _dataSet = JSON.parse(JSON.stringify(dataSet));
+            self.prepareDataSet(_dataSet, i);
+            _drawData.push(_dataSet);
+            self.prepareAxis(scope.axis, _dataSet, i);
+            i++;
+        });
+
+        scope.drawDataSets = _drawData;
+    };
+
+    _dchart2D.prototype.prepareAxis = function(axis, dataSet, count) {
+        if (dataSet === undefined || dataSet === null) return;
+    };
+
+    _dchart2D.prototype.prepareDataSet = function(dataSet, count) {
+        if (dataSet === undefined || dataSet === null) return;
+
+        var self = this,
+            i = 0;
+
+        angular.forEach(dataSet.data, function (data, key){
+            self.prepareData(data, i);
+            i++;
+        });
+    };
+
+    _dchart2D.prototype.prepareData = function(data, count) {
+        if (data === undefined || data === null) return;
+    };
+
     // Parse all Data from Transclude Elem
-    _dchart2D.prototype.parseDataSet = function(data, elem, xAxis) {
+    _dchart2D.prototype.parseDataSet = function(data, elem, axis) {
         if (elem === null) return;
 
         var set = { label:"",
@@ -157,7 +197,8 @@ var _dchart2D = (function(_super) {
                     data:[],
                     dataFn:undefined
                 },
-            self = this;
+            self = this
+            xAxis = axis.x;
 
         angular.forEach(elem.attributes, function (value, key) {
             if (value.nodeName.match(/^label$/i)) {
@@ -353,7 +394,7 @@ var _dchart2D = (function(_super) {
     // Draw the Axis
     _dchart2D.prototype.drawAxis = function(scope) {
 
-        var rangeValues = _dchart.prototype.getMinMaxValues(scope.data);
+        var rangeValues = _dchart.prototype.getMinMaxValues(scope.drawDataSets);
 
         if (scope.axis.x.range === "auto") {
             scope.axis.x.range = [rangeValues[0].x,rangeValues[1].x];
@@ -481,38 +522,30 @@ var _dchartHisto = (function(_super) {
         return _ref;
     }
 
-    _dchartHisto.prototype.parseDataSet = function(data, elem, xAxis) {
-        _dchartHisto.__super__.parseDataSet(data, elem, xAxis);
+    _dchartHisto.prototype.prepareAxis = function(axis, dataSet, count) {
+        if (dataSet === undefined || dataSet === null) return;
 
-        if (data === undefined || data === null)
-            return;
+        axis.x.ticks = dataSet.data.length;
+        axis.x.ticksFormat = [];
 
-        if (data.length === 0)
-            return;
-
-        // Check last dataset
-        var set = data[data.length-1],
-            i = 1,
-            reconfigureAxis = false;
-
-        if (set.data.length === 0)
-            return;
-
-        // if no property x is given, draw labels as ticks
-        // and generate x position
-        angular.forEach(set.data, function (value, key) {
-            if (!value.hasOwnProperty("x")) {
-                value["x"] = i;
-                i ++;
-                reconfigureAxis = true;
-                xAxis.ticksFormat.push(value.label);
-            }
-            else return;
+        angular.forEach(dataSet.data, function (data, key){
+            axis.x.ticksFormat.push(data.label);
         });
 
-        if (reconfigureAxis) {
-            xAxis.ticks = set.data.length;
-            xAxis.ticksFormat.unshift("");
+        if (axis.y.align === "left") {
+            //axis.y.ticksFormat.unshift("");
+        }
+
+        if (axis.y.align === "right") {
+            //axis.y.ticksFormat.push("");
+        }
+    };
+
+    _dchartHisto.prototype.prepareData = function(data, count){
+        if (data === undefined || data === null) return;
+
+        if (!data.hasOwnProperty("x")) {
+            data["x"] = count;
         }
     };
 
@@ -527,14 +560,14 @@ var _dchartHisto = (function(_super) {
     // Draw the Chart Data 
     _dchartHisto.prototype.drawData = function(scope) {
 
-        var numDataSets = scope.data.length,
+        var numDataSets = scope.drawDataSets.length,
             histoWidth = scope.w / scope.axis.x.ticks * 1/numDataSets * 0.8,
             actDataSet = 0;
 
         if (scope.svgData === undefined || scope.svgData === null)
             scope.svgData = [];
 
-        angular.forEach(scope.data, function(value, key) {
+        angular.forEach(scope.drawDataSets, function(value, key) {
 
             if (scope.svgData[key] === undefined || scope.svgData[key]  === null) {
                 scope.svgData[key] = scope.svg
@@ -552,7 +585,7 @@ var _dchartHisto = (function(_super) {
                 //.transition() // <-- This is not working
                 //.duration(150)
                 //.ease('cubicin')
-                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
+                .attr("x", function(d) {  return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
                 .attr("width", function(d) { return histoWidth; } );
 
             dataSet.enter()

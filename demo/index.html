@@ -93,6 +93,25 @@
                     $scope.histoData.Set3.replace(solver.solve($scope.fn.rnd,1,20,1));
                 };
 
+                $scope.randomizeHisto2 = function() {
+                    $scope.histoData.Set4.replace([
+                        {label:"monday",y:$scope.fn.rnd()},
+                        {label:"tuesday",y:$scope.fn.rnd()},
+                        {label:"wednesday",y:$scope.fn.rnd()},
+                        {label:"thursday",y:$scope.fn.rnd()},
+                        {label:"friday",y:$scope.fn.rnd()},
+                        {label:"saturday",y:$scope.fn.rnd()},
+                        {label:"sunday",y:$scope.fn.rnd()}
+                    ]);
+
+                    $scope.histoData.Set5.replace([
+                        {label:"06:30-07:00",y:$scope.fn.rnd()},
+                        {label:"07:00-07:30",y:$scope.fn.rnd()},
+                        {label:"07:30-08:00",y:$scope.fn.rnd()},
+                        {label:">08:00",y:$scope.fn.rnd()}
+                    ]);
+                };
+
                 $scope.randomizeScatter1 = function() {
                     $scope.scatterDataSet1.replace($scope.createScatterDataSet(100,100));
                     $scope.scatterDataSet2.replace($scope.createScatterDataSet(100,100));
@@ -189,7 +208,9 @@
             </data-set>
         </dchart-histo>
         <br>
-
+        <div class="form-horizontal">
+            <button class="btn" ng-click="randomizeHisto2()">Randomize!</button>
+        </div>
         <dchart-histo width="600" height="300">
             <axis>
                 <x align="bottom">weekdays</x>
