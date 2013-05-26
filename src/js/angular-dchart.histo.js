@@ -70,7 +70,7 @@ var _dchartHisto = (function(_super) {
                 //.transition() // <-- This is not working
                 //.duration(150)
                 //.ease('cubicin')
-                .attr("x", function(d) {  return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
+                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
                 .attr("width", function(d) { return histoWidth; } );
 
             dataSet.enter()

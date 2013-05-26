@@ -1,4 +1,4 @@
-/** angular-dchart - v0.0.2 - Sun May 26 2013 17:34:43
+/** angular-dchart - v0.0.2 - Sun May 26 2013 18:04:42
  *  (c) 2013 Christoph Körner, office@chaosmail.at, http://chaosmail.at
  *  License: MIT
  */
@@ -348,7 +348,7 @@ var _dchart2D = (function(_super) {
                 axis.ticks = parseInt(value.nodeValue,10);
             }
             else if (value.nodeName.match(/^range$/i)) {
-                axis.range = value.nodeValue.replace(/[\[\]]/g,"").split(",");
+                axis.rangeOpt = value.nodeValue.replace(/[\[\]]/g,"").split(",");
             }
             else if (value.nodeName.match(/^align$/i)) {
                 var align = value.nodeValue;
@@ -375,8 +375,8 @@ var _dchart2D = (function(_super) {
         if (scope.axis !== undefined && scope.axis !== null) return this;
 
         scope.axis = {
-            x: {type:"x",range:"auto",label:"",align:"bottom",ticks:10,ticksFormat:[],labelPos:"middle"},
-            y: {type:"y",range:"auto",label:"",align:"left",ticks:10,ticksFormat:[],labelPos:"middle"}
+            x: {type:"x",range:[0,1],rangeOpt:"auto",label:"",align:"bottom",ticks:10,ticksFormat:[],labelPos:"middle"},
+            y: {type:"y",range:[0,1],rangeOpt:"auto",label:"",align:"left",ticks:10,ticksFormat:[],labelPos:"middle"}
         };
 
         return this;
@@ -396,12 +396,18 @@ var _dchart2D = (function(_super) {
 
         var rangeValues = _dchart.prototype.getMinMaxValues(scope.drawDataSets);
 
-        if (scope.axis.x.range === "auto") {
+        if (scope.axis.x.rangeOpt === "auto") {
             scope.axis.x.range = [rangeValues[0].x,rangeValues[1].x];
         }
+        else {
+            scope.axis.x.range = scope.axis.x.rangeOpt;
+        }
 
-        if (scope.axis.y.range === "auto") {
+        if (scope.axis.y.rangeOpt === "auto") {
             scope.axis.y.range = [rangeValues[0].y,rangeValues[1].y];
+        }
+        else {
+            scope.axis.y.range = scope.axis.y.rangeOpt;
         }
 
         var xAxisPos = scope.axis.x.align === "center" ? scope.h*0.5 :
@@ -585,7 +591,7 @@ var _dchartHisto = (function(_super) {
                 //.transition() // <-- This is not working
                 //.duration(150)
                 //.ease('cubicin')
-                .attr("x", function(d) {  return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
+                .attr("x", function(d) { return scope.xScale(d.x) - histoWidth*0.5*numDataSets + actDataSet*histoWidth; } )
                 .attr("width", function(d) { return histoWidth; } );
 
             dataSet.enter()
