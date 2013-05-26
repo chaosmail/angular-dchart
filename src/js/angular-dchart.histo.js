@@ -76,7 +76,7 @@ var _dchartHisto = (function(_super) {
             dataSet.enter()
                 .append("rect")
                 .style("stroke", value.stroke)
-                .style("fill", function(d) { console.log(d); return d.hasOwnProperty("color") ? d.color : value.fill; })
+                .style("fill", function(d) { return d.hasOwnProperty("color") ? d.color : value.fill; })
                 .style("opacity", value.opacity)
                 .style("fill-opacity", value.fillOpacity)
                 .style("stroke-width", value.strokeWidth)

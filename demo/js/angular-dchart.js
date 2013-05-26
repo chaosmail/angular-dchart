@@ -1,4 +1,4 @@
-/** angular-dchart - v0.0.2 - Sun May 26 2013 19:37:54
+/** angular-dchart - v0.0.2 - Sun May 26 2013 19:38:54
  *  (c) 2013 Christoph Körner, office@chaosmail.at, http://chaosmail.at
  *  License: MIT
  */
@@ -597,7 +597,7 @@ var _dchartHisto = (function(_super) {
             dataSet.enter()
                 .append("rect")
                 .style("stroke", value.stroke)
-                .style("fill", function(d) { console.log(d); return d.hasOwnProperty("color") ? d.color : value.fill; })
+                .style("fill", function(d) { return d.hasOwnProperty("color") ? d.color : value.fill; })
                 .style("opacity", value.opacity)
                 .style("fill-opacity", value.fillOpacity)
                 .style("stroke-width", value.strokeWidth)
