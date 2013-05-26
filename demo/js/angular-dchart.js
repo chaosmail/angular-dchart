@@ -1,4 +1,4 @@
-/** angular-dchart - v0.0.2 - Sun May 26 2013 19:38:54
+/** angular-dchart - v0.0.2 - Sun May 26 2013 20:30:23
  *  (c) 2013 Christoph Körner, office@chaosmail.at, http://chaosmail.at
  *  License: MIT
  */
@@ -583,7 +583,7 @@ var _dchartHisto = (function(_super) {
 
             var dataSet = scope.svgData[key].selectAll("rect")
                                     .data(value.data, function(d) {
-                                        return d.x;
+                                        return d.x + " - " + d.y ;
                                     });
 
             // Update the x-Position and width of Existing bars

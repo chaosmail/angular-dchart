@@ -62,7 +62,7 @@ var _dchartHisto = (function(_super) {
 
             var dataSet = scope.svgData[key].selectAll("rect")
                                     .data(value.data, function(d) {
-                                        return d.x;
+                                        return d.x + " - " + d.y ;
                                     });
 
             // Update the x-Position and width of Existing bars
