@@ -25,7 +25,7 @@ var _dchartScatter = (function(_super) {
             scope.symbolFn = [];
         }
 
-        angular.forEach(scope.data, function(value, key) {
+        angular.forEach(scope.drawDataSets, function(value, key) {
 
             if (scope.svgData[key] === undefined || scope.svgData[key]  === null) {
                 scope.svgData[key] = scope.svg

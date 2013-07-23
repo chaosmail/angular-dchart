@@ -23,7 +23,7 @@ var _dchartLine = (function(_super) {
             scope.lineFn = [];
         }
 
-        angular.forEach(scope.data, function(value, key) {
+        angular.forEach(scope.drawDataSets, function(value, key) {
 
             if (scope.svgData[key] === undefined || scope.svgData[key]  === null) {
                 scope.svgData[key] = scope.svg

@@ -1,10 +1,17 @@
-/** angular-dchart - v0.0.2 - Sun May 26 2013 20:30:23
+/** angular-dchart - v0.0.2 - Tue Jul 23 2013 23:11:39
  *  (c) 2013 Christoph Körner, office@chaosmail.at, http://chaosmail.at
  *  License: MIT
  */
 var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
+if (Array.prototype.replace === undefined) {
+    Array.prototype.replace = function(newArray) {
+        this.splice(0,this.length);
+        for(var i=0;i<newArray.length;i++)
+            this.push(newArray[i]);
+    };
+}
 /*
     _dchart
     *******************
@@ -280,7 +287,7 @@ var _dchart2D = (function(_super) {
             ticks = xAxis.ticks ? parseFloat(xAxis.ticks) : 10,
             range = (max - min) / ticks;
 
-        set.data = (new _solver()).solve(set.fn,min,max,range);
+        set.data.replace((new _solver()).solve(set.fn,min,max,range));
     };
 
     _dchart2D.prototype.calculateFnData = function(scope) {
@@ -291,9 +298,12 @@ var _dchart2D = (function(_super) {
 
         angular.forEach(scope.data, function (set, key){
             if (set.fn !== undefined) {
+
                 self.solveFn(set,scope.axis);
             }
         });
+
+        scope.drawDataSets = scope.data;
     };
 
     // Parse all Attributes from a Data Elem
@@ -532,7 +542,7 @@ var _dchartHisto = (function(_super) {
         if (dataSet === undefined || dataSet === null) return;
 
         axis.x.ticks = dataSet.data.length;
-        axis.x.ticksFormat = [];
+        axis.x.ticksFormat = [""];
 
         angular.forEach(dataSet.data, function (data, key){
             axis.x.ticksFormat.push(data.label);
@@ -551,7 +561,7 @@ var _dchartHisto = (function(_super) {
         if (data === undefined || data === null) return;
 
         if (!data.hasOwnProperty("x")) {
-            data["x"] = count;
+            data["x"] = count + 1;
         }
     };
 
@@ -660,7 +670,7 @@ var _dchartLine = (function(_super) {
             scope.lineFn = [];
         }
 
-        angular.forEach(scope.data, function(value, key) {
+        angular.forEach(scope.drawDataSets, function(value, key) {
 
             if (scope.svgData[key] === undefined || scope.svgData[key]  === null) {
                 scope.svgData[key] = scope.svg
@@ -721,7 +731,7 @@ var _dchartScatter = (function(_super) {
             scope.symbolFn = [];
         }
 
-        angular.forEach(scope.data, function(value, key) {
+        angular.forEach(scope.drawDataSets, function(value, key) {
 
             if (scope.svgData[key] === undefined || scope.svgData[key]  === null) {
                 scope.svgData[key] = scope.svg

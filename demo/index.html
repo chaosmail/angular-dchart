@@ -13,18 +13,20 @@
             }
         </style>
 
-        <script type="text/javascript" src="lib/angular.min.js"></script>
-        <script type="text/javascript" src="lib/d3.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../lib/angular.js"></script>
+        <script type="text/javascript" src="../lib/d3.js" charset="utf-8"></script>
 
         <script type="text/javascript" src="js/angular-dchart.js"></script>
 
         <script type="text/javascript">
             // Replace Array and Keep Reference
-            Array.prototype.replace = function(newArray) {
-                this.splice(0,this.length);
-                for(var i=0;i<newArray.length;i++)
-                    this.push(newArray[i]);
-            };
+            if (Array.prototype.replace === undefined) {
+                Array.prototype.replace = function(newArray) {
+                    this.splice(0,this.length);
+                    for(var i=0;i<newArray.length;i++)
+                        this.push(newArray[i]);
+                };
+            }
 
             var app = angular.module('dchart.demo', ['dchart.solver','dchart.line', 'dchart.histo', 'dchart.scatter']);
 

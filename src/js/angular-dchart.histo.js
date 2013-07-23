@@ -11,7 +11,7 @@ var _dchartHisto = (function(_super) {
         if (dataSet === undefined || dataSet === null) return;
 
         axis.x.ticks = dataSet.data.length;
-        axis.x.ticksFormat = [];
+        axis.x.ticksFormat = [""];
 
         angular.forEach(dataSet.data, function (data, key){
             axis.x.ticksFormat.push(data.label);
@@ -30,7 +30,7 @@ var _dchartHisto = (function(_super) {
         if (data === undefined || data === null) return;
 
         if (!data.hasOwnProperty("x")) {
-            data["x"] = count;
+            data["x"] = count + 1;
         }
     };
 

@@ -1,6 +1,13 @@
 var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
+if (Array.prototype.replace === undefined) {
+    Array.prototype.replace = function(newArray) {
+        this.splice(0,this.length);
+        for(var i=0;i<newArray.length;i++)
+            this.push(newArray[i]);
+    };
+}
 /*
     _dchart
     *******************
@@ -276,7 +283,7 @@ var _dchart2D = (function(_super) {
             ticks = xAxis.ticks ? parseFloat(xAxis.ticks) : 10,
             range = (max - min) / ticks;
 
-        set.data = (new _solver()).solve(set.fn,min,max,range);
+        set.data.replace((new _solver()).solve(set.fn,min,max,range));
     };
 
     _dchart2D.prototype.calculateFnData = function(scope) {
@@ -287,9 +294,12 @@ var _dchart2D = (function(_super) {
 
         angular.forEach(scope.data, function (set, key){
             if (set.fn !== undefined) {
+
                 self.solveFn(set,scope.axis);
             }
         });
+
+        scope.drawDataSets = scope.data;
     };
 
     // Parse all Attributes from a Data Elem
