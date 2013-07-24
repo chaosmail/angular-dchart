@@ -1,6 +1,6 @@
 {
   "name": "angular-dchart",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Angular/D3.js Chart Directives",
   "main": "dist/angular-dchart.js",
   "scripts": {
