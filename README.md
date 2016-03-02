@@ -1,7 +1,8 @@
-Angular/D3.js Chart Directives
+Angular/D3.js Chart Directives (not maintained)
 ==============================
 
-A Demo can be found here: http://chaosmail.at/2013/angular-dchart/
+This library was a proof of concept and is not maintained anymore. Please check out https://github.com/n3-charts/line-chart instead!
+
 Features
 --------
 + Angular Directives for different Chart types
